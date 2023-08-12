@@ -1,0 +1,13 @@
+version: 2.1
+
+jobs:
+  java-base-test:
+    docker:
+      - image: cimg/openjdk:20.0.1
+    steps:
+      - checkout
+
+workflows:
+  simple:
+    jobs:
+      - java-base-test
