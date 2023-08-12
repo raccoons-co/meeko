@@ -358,9 +358,9 @@ public class Optional<T> {
      * @apiNote This method can be used to transform a {@code Stream} of optional
      * elements to a {@code Stream} of present value elements:
      * <pre>{@code
-     *                                                     Stream<Optional<T>> os = ..
-     *                                                     Stream<T> s = os.flatMap(Optional::stream)
-     *                                                 }</pre>
+     *     Stream<Optional<T>> os = ..
+     *     Stream<T> s = os.flatMap(Optional::stream)
+     * }</pre>
      * @since 9
      */
     public Stream<T> stream() {

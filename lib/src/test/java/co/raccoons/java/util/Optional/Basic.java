@@ -47,6 +47,7 @@ public class Basic {
      */
     void checkEmpty(Optional<String> empty) {
         assertTrue(empty.equals(Optional.empty()));
+        assertTrue(empty.equals(Optional.empty()));
         assertTrue(Optional.empty().equals(empty));
         assertFalse(empty.equals(Optional.of("unexpected")));
         assertFalse(Optional.of("unexpected").equals(empty));
@@ -72,6 +73,7 @@ public class Basic {
         assertFalse(b1.get());
         assertTrue(b2.get());
 
+        assertTrue(empty.equals(empty));
         assertEquals(empty.toString(), "Optional.empty");
     }
 
@@ -108,6 +110,7 @@ public class Basic {
         assertTrue(b1.get());
         assertFalse(b2.get());
 
+        assertTrue(opt.equals(opt));
         assertEquals(opt.toString(), "Optional[" + expected + "]");
     }
 
