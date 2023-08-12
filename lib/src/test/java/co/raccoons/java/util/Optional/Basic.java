@@ -31,12 +31,13 @@
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static java.util.stream.Collectors.toList;
 
 import static org.testng.Assert.*;
+
+import co.raccoons.java.util.Optional;
 import org.testng.annotations.Test;
 
 public class Basic {
@@ -59,7 +60,7 @@ public class Basic {
 
         assertThrows(NoSuchElementException.class, () -> empty.get());
         assertThrows(NoSuchElementException.class, () -> empty.orElseThrow());
-        assertThrows(ObscureException.class,       () -> empty.orElseThrow(ObscureException::new));
+        assertThrows(RuntimeException.class,       () -> empty.orElseThrow(RuntimeException::new));
 
         var b = new AtomicBoolean();
         empty.ifPresent(s -> b.set(true));
@@ -95,7 +96,7 @@ public class Basic {
 
         assertEquals(opt.get(), expected);
         assertEquals(opt.orElseThrow(), expected);
-        assertEquals(opt.orElseThrow(ObscureException::new), expected);
+        assertEquals(opt.orElseThrow(RuntimeException::new), expected);
 
         var b = new AtomicBoolean(false);
         opt.ifPresent(s -> b.set(true));
