@@ -22,8 +22,10 @@
  * or visit www.oracle.com if you need additional information or have any
  * questions.
  */
-package java.util;
+package co.raccoons.java.util;
 
+import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -58,7 +60,6 @@ import java.util.stream.Stream;
  * @param <T> the type of value
  * @since 1.8
  */
-@jdk.internal.ValueBased
 public final class Optional<T> {
     /**
      * Common instance for {@code empty()}.
