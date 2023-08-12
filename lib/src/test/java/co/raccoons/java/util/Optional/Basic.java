@@ -47,7 +47,6 @@ public class Basic {
      */
     void checkEmpty(Optional<String> empty) {
         assertTrue(empty.equals(Optional.empty()));
-        assertTrue(empty.equals(Optional.empty()));
         assertTrue(Optional.empty().equals(empty));
         assertFalse(empty.equals(Optional.of("unexpected")));
         assertFalse(Optional.of("unexpected").equals(empty));
