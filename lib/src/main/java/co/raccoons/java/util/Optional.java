@@ -60,6 +60,11 @@ import java.util.stream.Stream;
  */
 public class Optional<T> {
     /**
+     * Common instance for {@code empty()}.
+     */
+    private static final Optional<?> EMPTY = new EmptyOptional<>();
+
+    /**
      * If non-null, the value; if null, indicates no value is present
      */
     private final T value;
@@ -87,83 +92,9 @@ public class Optional<T> {
      * Instead, use {@link #isEmpty()} or {@link #isPresent()}.
      */
     public static <T> Optional<T> empty() {
-        return new Optional<>(null) {
-
-            @Override
-            public T get() {
-                throw new NoSuchElementException("No value present");
-            }
-
-            @Override
-            public boolean isEmpty() {
-                return true;
-            }
-
-            @Override
-            public boolean isPresent() {
-                return false;
-            }
-
-            @Override
-            public void ifPresent(Consumer<? super T> action) {
-                // Intentionally empty
-            }
-
-            @Override
-            public void ifPresentOrElse(Consumer<? super T> action, Runnable emptyAction) {
-                Objects.requireNonNull(emptyAction);
-                emptyAction.run();
-            }
-
-            @Override
-            public Optional<T> filter(Predicate<? super T> predicate) {
-                return this;
-            }
-
-            @Override
-            public <U> Optional<U> map(Function<? super T, ? extends U> mapper) {
-                return empty();
-            }
-
-            @Override
-            public <U> Optional<U> flatMap(Function<? super T, ? extends Optional<? extends U>> mapper) {
-                return empty();
-            }
-
-            @Override
-            public Optional<T> or(Supplier<? extends Optional<? extends T>> supplier) {
-                Objects.requireNonNull(supplier);
-                @SuppressWarnings("unchecked")
-                Optional<T> r = (Optional<T>) supplier.get();
-                return Objects.requireNonNull(r);
-            }
-
-            @Override
-            public Stream<T> stream() {
-                return Stream.empty();
-            }
-
-            @Override
-            public T orElse(T other) {
-                return other;
-            }
-
-            @Override
-            public T orElseGet(Supplier<? extends T> supplier) {
-                Objects.requireNonNull(supplier);
-                return supplier.get();
-            }
-
-            @Override
-            public <X extends Throwable> T orElseThrow(Supplier<? extends X> exceptionSupplier) throws X {
-                throw exceptionSupplier.get();
-            }
-
-            @Override
-            public String toString() {
-                return "Optional.empty";
-            }
-        };
+        @SuppressWarnings("unchecked")
+        Optional<T> t = (Optional<T>) EMPTY;
+        return t;
     }
 
     /**
@@ -188,7 +119,6 @@ public class Optional<T> {
      * @return an {@code Optional} with a present value if the specified value
      * is non-{@code null}, otherwise an empty {@code Optional}
      */
-    @SuppressWarnings("unchecked")
     public static <T> Optional<T> ofNullable(T value) {
         return value == null ? empty()
                 : new Optional<>(value);
@@ -473,4 +403,86 @@ public class Optional<T> {
     public String toString() {
         return "Optional[" + value + "]";
     }
+
+    private static class EmptyOptional<T> extends Optional<T> {
+        public EmptyOptional() {
+            super(null);
+        }
+
+        @Override
+        public T get() {
+            throw new NoSuchElementException("No value present");
+        }
+
+        @Override
+        public boolean isEmpty() {
+            return true;
+        }
+
+        @Override
+        public boolean isPresent() {
+            return false;
+        }
+
+        @Override
+        public void ifPresent(Consumer<? super T> action) {
+            // Intentionally empty
+        }
+
+        @Override
+        public void ifPresentOrElse(Consumer<? super T> action, Runnable emptyAction) {
+            Objects.requireNonNull(emptyAction);
+            emptyAction.run();
+        }
+
+        @Override
+        public Optional<T> filter(Predicate<? super T> predicate) {
+            return this;
+        }
+
+        @Override
+        public <U> Optional<U> map(Function<? super T, ? extends U> mapper) {
+            return empty();
+        }
+
+        @Override
+        public <U> Optional<U> flatMap(Function<? super T, ? extends Optional<? extends U>> mapper) {
+            return empty();
+        }
+
+        @Override
+        public Optional<T> or(Supplier<? extends Optional<? extends T>> supplier) {
+            Objects.requireNonNull(supplier);
+            @SuppressWarnings("unchecked")
+            Optional<T> r = (Optional<T>) supplier.get();
+            return Objects.requireNonNull(r);
+        }
+
+        @Override
+        public Stream<T> stream() {
+            return Stream.empty();
+        }
+
+        @Override
+        public T orElse(T other) {
+            return other;
+        }
+
+        @Override
+        public T orElseGet(Supplier<? extends T> supplier) {
+            Objects.requireNonNull(supplier);
+            return supplier.get();
+        }
+
+        @Override
+        public <X extends Throwable> T orElseThrow(Supplier<? extends X> exceptionSupplier) throws X {
+            throw exceptionSupplier.get();
+        }
+
+        @Override
+        public String toString() {
+            return "Optional.empty";
+        }
+    }
+
 }
