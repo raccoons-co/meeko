@@ -9,7 +9,7 @@ repositories {
 
 dependencies {
     testImplementation("org.testng:testng:7.8.0")
-    implementation("org.slf4j:slf4j-api:1.7.36")
+    testImplementation("org.slf4j:slf4j-simple:2.0.7")
 }
 
 java {

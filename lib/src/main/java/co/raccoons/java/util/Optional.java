@@ -70,17 +70,6 @@ public class Optional<T> {
     private final T value;
 
     /**
-     * Constructs an instance with the described value.
-     *
-     * @param value the value to describe; it's the caller's responsibility to
-     *              ensure the value is non-{@code null} unless creating the singleton
-     *              instance returned by {@code empty()}.
-     */
-    private Optional(T value) {
-        this.value = value;
-    }
-
-    /**
      * Returns an empty {@code Optional} instance.  No value is present for this
      * {@code Optional}.
      *
@@ -95,6 +84,17 @@ public class Optional<T> {
         @SuppressWarnings("unchecked")
         Optional<T> t = (Optional<T>) EMPTY;
         return t;
+    }
+
+    /**
+     * Constructs an instance with the described value.
+     *
+     * @param value the value to describe; it's the caller's responsibility to
+     *              ensure the value is non-{@code null} unless creating the singleton
+     *              instance returned by {@code empty()}.
+     */
+    private Optional(T value) {
+        this.value = value;
     }
 
     /**
@@ -404,52 +404,89 @@ public class Optional<T> {
         return "Optional[" + value + "]";
     }
 
+    /**
+     * A container object of an empty {@code Optional}.
+     *
+     * @param <T> the type of value
+     * @since 21
+     */
     private static class EmptyOptional<T> extends Optional<T> {
+
+        /**
+         * Constructs an instance for {@code Optional.empty()}.
+         */
         public EmptyOptional() {
             super(null);
         }
 
+        /**
+         * @inheritDoc
+         */
         @Override
         public T get() {
             throw new NoSuchElementException("No value present");
         }
 
+        /**
+         * @inheritDoc
+         */
         @Override
         public boolean isEmpty() {
             return true;
         }
 
+        /**
+         * @inheritDoc
+         */
         @Override
         public boolean isPresent() {
             return false;
         }
 
+        /**
+         * @inheritDoc
+         */
         @Override
         public void ifPresent(Consumer<? super T> action) {
             // Intentionally empty
         }
 
+        /**
+         * @inheritDoc
+         */
         @Override
         public void ifPresentOrElse(Consumer<? super T> action, Runnable emptyAction) {
             Objects.requireNonNull(emptyAction);
             emptyAction.run();
         }
 
+        /**
+         * @inheritDoc
+         */
         @Override
         public Optional<T> filter(Predicate<? super T> predicate) {
             return this;
         }
 
+        /**
+         * @inheritDoc
+         */
         @Override
         public <U> Optional<U> map(Function<? super T, ? extends U> mapper) {
             return empty();
         }
 
+        /**
+         * @inheritDoc
+         */
         @Override
         public <U> Optional<U> flatMap(Function<? super T, ? extends Optional<? extends U>> mapper) {
             return empty();
         }
 
+        /**
+         * @inheritDoc
+         */
         @Override
         public Optional<T> or(Supplier<? extends Optional<? extends T>> supplier) {
             Objects.requireNonNull(supplier);
@@ -458,31 +495,46 @@ public class Optional<T> {
             return Objects.requireNonNull(r);
         }
 
+        /**
+         * @inheritDoc
+         */
         @Override
         public Stream<T> stream() {
             return Stream.empty();
         }
 
+        /**
+         * @inheritDoc
+         */
         @Override
         public T orElse(T other) {
             return other;
         }
 
+        /**
+         * @inheritDoc
+         */
         @Override
         public T orElseGet(Supplier<? extends T> supplier) {
             Objects.requireNonNull(supplier);
             return supplier.get();
         }
 
+        /**
+         * @inheritDoc
+         */
         @Override
         public <X extends Throwable> T orElseThrow(Supplier<? extends X> exceptionSupplier) throws X {
+            Objects.requireNonNull(exceptionSupplier);
             throw exceptionSupplier.get();
         }
 
+        /**
+         * @inheritDoc
+         */
         @Override
         public String toString() {
             return "Optional.empty";
         }
     }
-
 }
