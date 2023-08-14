@@ -23,10 +23,10 @@
 
 /* @test
  * @bug 8195649
- * @summary Basic functional test of Optional
+ * @summary OptionalTest functional test of Optional
  * @author Mike Duigou
  * @build ObscureException
- * @run testng Basic
+ * @run testng OptionalTest
  */
 
 import java.util.List;
@@ -40,7 +40,7 @@ import static org.testng.Assert.*;
 import co.raccoons.meeko.Optional;
 import org.testng.annotations.Test;
 
-public class Basic {
+public class OptionalTest {
 
     /**
      * Checks a block of assertions over an empty Optional.
