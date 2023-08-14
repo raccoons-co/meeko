@@ -20,6 +20,9 @@
  * or visit www.oracle.com if you need additional information or have any
  * questions.
  */
+
 /**
  * A unique exception used for checking exception types.
  */
+public class ObscureException extends RuntimeException {
+}

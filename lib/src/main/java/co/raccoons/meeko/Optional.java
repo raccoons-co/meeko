@@ -22,7 +22,7 @@
  * or visit www.oracle.com if you need additional information or have any
  * questions.
  */
-package co.raccoons.java.util;
+package co.raccoons.meeko;
 
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -87,49 +87,76 @@ public class Optional<T> {
      * Instead, use {@link #isEmpty()} or {@link #isPresent()}.
      */
     public static <T> Optional<T> empty() {
-        return new Optional<>(null) {
+        return new Optional<T>(null) {
 
+            /**
+             * @inheritDoc
+             */
             @Override
             public T get() {
                 throw new NoSuchElementException("No value present");
             }
 
+            /**
+             * @inheritDoc
+             */
             @Override
             public boolean isEmpty() {
                 return true;
             }
 
+            /**
+             * @inheritDoc
+             */
             @Override
             public boolean isPresent() {
                 return false;
             }
 
+            /**
+             * @inheritDoc
+             */
             @Override
             public void ifPresent(Consumer<? super T> action) {
                 // Intentionally empty
             }
 
+            /**
+             * @inheritDoc
+             */
             @Override
             public void ifPresentOrElse(Consumer<? super T> action, Runnable emptyAction) {
                 Objects.requireNonNull(emptyAction);
                 emptyAction.run();
             }
 
+            /**
+             * @inheritDoc
+             */
             @Override
             public Optional<T> filter(Predicate<? super T> predicate) {
                 return this;
             }
 
+            /**
+             * @inheritDoc
+             */
             @Override
             public <U> Optional<U> map(Function<? super T, ? extends U> mapper) {
-                return empty();
+                return (Optional<U>) this;
             }
 
+            /**
+             * @inheritDoc
+             */
             @Override
             public <U> Optional<U> flatMap(Function<? super T, ? extends Optional<? extends U>> mapper) {
-                return empty();
+                return (Optional<U>) this;
             }
 
+            /**
+             * @inheritDoc
+             */
             @Override
             public Optional<T> or(Supplier<? extends Optional<? extends T>> supplier) {
                 Objects.requireNonNull(supplier);
@@ -138,27 +165,43 @@ public class Optional<T> {
                 return Objects.requireNonNull(r);
             }
 
+            /**
+             * @inheritDoc
+             */
             @Override
             public Stream<T> stream() {
                 return Stream.empty();
             }
 
+            /**
+             * @inheritDoc
+             */
             @Override
             public T orElse(T other) {
                 return other;
             }
 
+            /**
+             * @inheritDoc
+             */
             @Override
             public T orElseGet(Supplier<? extends T> supplier) {
                 Objects.requireNonNull(supplier);
                 return supplier.get();
             }
 
+            /**
+             * @inheritDoc
+             */
             @Override
             public <X extends Throwable> T orElseThrow(Supplier<? extends X> exceptionSupplier) throws X {
+                Objects.requireNonNull(exceptionSupplier);
                 throw exceptionSupplier.get();
             }
 
+            /**
+             * @inheritDoc
+             */
             @Override
             public String toString() {
                 return "Optional.empty";
@@ -188,7 +231,6 @@ public class Optional<T> {
      * @return an {@code Optional} with a present value if the specified value
      * is non-{@code null}, otherwise an empty {@code Optional}
      */
-    @SuppressWarnings("unchecked")
     public static <T> Optional<T> ofNullable(T value) {
         return value == null ? empty()
                 : new Optional<>(value);
@@ -473,4 +515,6 @@ public class Optional<T> {
     public String toString() {
         return "Optional[" + value + "]";
     }
+
+
 }

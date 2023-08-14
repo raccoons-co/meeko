@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, 2018, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2023, 2018, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -37,7 +37,7 @@ import static java.util.stream.Collectors.toList;
 
 import static org.testng.Assert.*;
 
-import co.raccoons.java.util.Optional;
+import co.raccoons.meeko.Optional;
 import org.testng.annotations.Test;
 
 public class Basic {
@@ -60,7 +60,7 @@ public class Basic {
 
         assertThrows(NoSuchElementException.class, () -> empty.get());
         assertThrows(NoSuchElementException.class, () -> empty.orElseThrow());
-        assertThrows(RuntimeException.class,       () -> empty.orElseThrow(RuntimeException::new));
+        assertThrows(ObscureException.class,       () -> empty.orElseThrow(ObscureException::new));
 
         var b = new AtomicBoolean();
         empty.ifPresent(s -> b.set(true));
