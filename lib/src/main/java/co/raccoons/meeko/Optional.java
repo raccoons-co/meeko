@@ -515,6 +515,4 @@ public class Optional<T> {
     public String toString() {
         return "Optional[" + value + "]";
     }
-
-
 }
