@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, 2018, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2023, 2018, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -23,10 +23,10 @@
 
 /* @test
  * @bug 8195649
- * @summary Basic functional test of Optional
+ * @summary OptionalTest functional test of Optional
  * @author Mike Duigou
  * @build ObscureException
- * @run testng Basic
+ * @run testng OptionalTest
  */
 
 import java.util.List;
@@ -37,10 +37,10 @@ import static java.util.stream.Collectors.toList;
 
 import static org.testng.Assert.*;
 
-import co.raccoons.java.util.Optional;
+import co.raccoons.meeko.Optional;
 import org.testng.annotations.Test;
 
-public class Basic {
+public class OptionalTest {
 
     /**
      * Checks a block of assertions over an empty Optional.
@@ -60,7 +60,7 @@ public class Basic {
 
         assertThrows(NoSuchElementException.class, () -> empty.get());
         assertThrows(NoSuchElementException.class, () -> empty.orElseThrow());
-        assertThrows(RuntimeException.class,       () -> empty.orElseThrow(RuntimeException::new));
+        assertThrows(ObscureException.class,       () -> empty.orElseThrow(ObscureException::new));
 
         var b = new AtomicBoolean();
         empty.ifPresent(s -> b.set(true));
@@ -72,6 +72,7 @@ public class Basic {
         assertFalse(b1.get());
         assertTrue(b2.get());
 
+        assertTrue(empty.equals(empty));
         assertEquals(empty.toString(), "Optional.empty");
     }
 
@@ -108,6 +109,7 @@ public class Basic {
         assertTrue(b1.get());
         assertFalse(b2.get());
 
+        assertTrue(opt.equals(opt));
         assertEquals(opt.toString(), "Optional[" + expected + "]");
     }
 
