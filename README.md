@@ -6,3 +6,8 @@ Java Base Utils
 ---
 
 >*Always leave the code you are working on a little bit better than you found it.*
+
+### Optional
+___
+
+`java.util.Optional` refactored from procedural code into object-oriented.
