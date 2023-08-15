@@ -1,0 +1,10 @@
+name: 'Setup Java'
+description: 'Setup JDK 20'
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-java@v3
+      with:
+        distribution: 'oracle'
+        java-version: '20'

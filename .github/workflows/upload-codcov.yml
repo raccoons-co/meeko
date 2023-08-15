@@ -1,0 +1,21 @@
+name: 'Upload Codecov'
+
+on:
+  workflow_call:
+
+jobs:
+  upload-codecov:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: 'Setup Java'
+        uses: ./.github/actions/setup-java
+
+      - name: 'Run JaCoCo code coverage report'
+        run: ./gradlew jacocoTestReport
+
+      - name: 'Upload code coverage report to codecov.io'
+        uses: codecov/codecov-action@v3
+        with:
+          flags: '--nonZero'
