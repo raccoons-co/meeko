@@ -18,15 +18,26 @@ java {
     }
 }
 
-tasks.named<Test>("test") {
-    useTestNG() {
+tasks {
+    withType<Test> {
+        useTestNG()
     }
-}
 
-tasks.jacocoTestReport {
-    dependsOn(tasks.test) // tests are required to run before generating the report
-    reports {
-        xml.required.set(true)
-        html.required.set(true)
+    withType<Javadoc> {
+        (options as StandardJavadocDocletOptions)
+            .tags(
+                "apiNote:a:API Note:",
+                "implSpec:a:Implementation Specification:",
+                "implNote:a:Implementation Note:"
+            )
+    }
+
+    named<JacocoReport>("jacocoTestReport") {
+        dependsOn("test")
+
+        reports {
+            html.required.set(true)
+            xml.required.set(true)
+        }
     }
 }
