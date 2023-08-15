@@ -1,3 +1,3 @@
-rootProject.name = "java-base"
+rootProject.name = "meeko"
 
 include("lib")
