@@ -135,7 +135,7 @@ public class Optional<T> {
              */
             @Override
             public Optional<T> filter(Predicate<? super T> predicate) {
-                return this;
+                return empty();
             }
 
             /**
@@ -143,7 +143,7 @@ public class Optional<T> {
              */
             @Override
             public <U> Optional<U> map(Function<? super T, ? extends U> mapper) {
-                return (Optional<U>) this;
+                return empty();
             }
 
             /**
@@ -151,7 +151,7 @@ public class Optional<T> {
              */
             @Override
             public <U> Optional<U> flatMap(Function<? super T, ? extends Optional<? extends U>> mapper) {
-                return (Optional<U>) this;
+                return empty();
             }
 
             /**
