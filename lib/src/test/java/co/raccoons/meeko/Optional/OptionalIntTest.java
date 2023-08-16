@@ -109,6 +109,7 @@ public class OptionalIntTest {
         assertTrue(b1.get());
         assertFalse(b2.get());
 
+        assertTrue(opt.equals(opt));
         assertEquals(opt.toString(), "OptionalInt[" + expected + "]");
     }
 
