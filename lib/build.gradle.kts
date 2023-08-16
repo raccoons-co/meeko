@@ -1,43 +1,21 @@
+import co.raccoons.local.gradle.BuildConfiguration
+import co.raccoons.local.gradle.Repository
+import co.raccoons.local.gradle.TestNG
+
 plugins {
     `java-library`
-    jacoco
 }
 
-repositories {
-    mavenCentral()
-}
+val testImplementation =
+    TestNG.Builder()
+        .addDependency("org.testng:testng:7.8.0")
+        .addDependency("org.slf4j:slf4j-simple:2.0.7")
+        .build();
 
-dependencies {
-    testImplementation("org.testng:testng:7.8.0")
-    testImplementation("org.slf4j:slf4j-simple:2.0.7")
-}
+BuildConfiguration.of(project)
+    .useRepository(Repository.MAVEN_CENTRAL)
+    .setJavaVersion(JavaLanguageVersion.of(20))
+    .setTestImplementation(testImplementation)
+    .setJacoco()
 
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(20))
-    }
-}
 
-tasks {
-    withType<Test> {
-        useTestNG()
-    }
-
-    withType<Javadoc> {
-        (options as StandardJavadocDocletOptions)
-            .tags(
-                "apiNote:a:API Note:",
-                "implSpec:a:Implementation Specification:",
-                "implNote:a:Implementation Note:"
-            )
-    }
-
-    named<JacocoReport>("jacocoTestReport") {
-        dependsOn("test")
-
-        reports {
-            html.required.set(true)
-            xml.required.set(true)
-        }
-    }
-}
