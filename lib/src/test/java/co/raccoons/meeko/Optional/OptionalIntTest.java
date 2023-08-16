@@ -30,10 +30,11 @@
  */
 
 import java.util.NoSuchElementException;
-import java.util.OptionalInt;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.testng.Assert.*;
+
+import co.raccoons.meeko.OptionalInt;
 import org.testng.annotations.Test;
 
 public class OptionalIntTest {
@@ -71,6 +72,7 @@ public class OptionalIntTest {
         assertFalse(b1.get());
         assertTrue(b2.get());
 
+        assertTrue(empty.equals(empty));
         assertEquals(empty.toString(), "OptionalInt.empty");
     }
 
