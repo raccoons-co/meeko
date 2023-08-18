@@ -1,4 +1,4 @@
-package co.raccoons.local.gradle
+package co.raccoons.local.gradle.jacoco
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project

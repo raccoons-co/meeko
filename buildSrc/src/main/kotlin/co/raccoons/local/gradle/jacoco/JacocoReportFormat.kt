@@ -1,4 +1,4 @@
-package co.raccoons.local.gradle
+package co.raccoons.local.gradle.jacoco
 
 import org.gradle.testing.jacoco.tasks.JacocoReportsContainer
 

@@ -13,8 +13,14 @@ Refactored from procedural code into object-oriented:
 Gradle Build Script
 ---
 ~~~Kotlin
-
-import co.raccoons.local.gradle.*
+import co.raccoons.local.gradle.BuildConfiguration
+import co.raccoons.local.gradle.Repository
+import co.raccoons.local.gradle.jacoco.JacocoConfiguration
+import co.raccoons.local.gradle.jacoco.JacocoReportFormat
+import co.raccoons.local.gradle.javacompile.Version
+import co.raccoons.local.gradle.javadoc.JavadocConfiguration
+import co.raccoons.local.gradle.javadoc.JavadocTag
+import co.raccoons.local.gradle.test.TestNgImplementation
 
 plugins {
     `java-library`
@@ -34,9 +40,9 @@ val jacocoConfiguration =
 
 val javadocConfiguration =
     JavadocConfiguration.Builder()
-        .addTag(JavadocTag("apiNote","API Note"))
-        .addTag(JavadocTag("implSpec","Implementation Specification"))
-        .addTag(JavadocTag("implNote","Implementation Note"))
+        .addTag(JavadocTag("apiNote", "API Note"))
+        .addTag(JavadocTag("implSpec", "Implementation Specification"))
+        .addTag(JavadocTag("implNote", "Implementation Note"))
         .build()
 
 BuildConfiguration.of(project)

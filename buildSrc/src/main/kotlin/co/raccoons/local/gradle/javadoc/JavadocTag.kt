@@ -1,4 +1,4 @@
-package co.raccoons.local.gradle
+package co.raccoons.local.gradle.javadoc
 
 class JavadocTag(private val name: String, private val head: String) {
 
