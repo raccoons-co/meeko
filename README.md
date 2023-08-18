@@ -10,16 +10,19 @@ Refactored from procedural code into object-oriented:
 
 *Always leave the code you are working on a little bit better than you found it.*
 
-Gradle Build Script
+build.gradle.kts
 ---
+
 ~~~Kotlin
 import co.raccoons.local.gradle.BuildConfiguration
-import co.raccoons.local.gradle.Repository
+import co.raccoons.local.gradle.checkstyle.CheckstyleConfiguration
+import co.raccoons.local.gradle.checkstyle.CheckstyleReportFormat
 import co.raccoons.local.gradle.jacoco.JacocoConfiguration
 import co.raccoons.local.gradle.jacoco.JacocoReportFormat
 import co.raccoons.local.gradle.javacompile.Version
 import co.raccoons.local.gradle.javadoc.JavadocConfiguration
 import co.raccoons.local.gradle.javadoc.JavadocTag
+import co.raccoons.local.gradle.repository.Repository
 import co.raccoons.local.gradle.test.TestNgImplementation
 
 plugins {
@@ -45,6 +48,12 @@ val javadocConfiguration =
         .addTag(JavadocTag("implNote", "Implementation Note"))
         .build()
 
+val checkstyleConfiguration =
+    CheckstyleConfiguration.Builder()
+        .setVersion("10.12.2")
+        .enable(CheckstyleReportFormat.HTML)
+        .build()
+
 BuildConfiguration.of(project)
     .use(Repository.MAVEN_CENTRAL)
     .use(Repository.MAVEN_LOCAL)
@@ -52,4 +61,5 @@ BuildConfiguration.of(project)
     .use(testNgImplementation)
     .use(jacocoConfiguration)
     .use(javadocConfiguration)
+    .use(checkstyleConfiguration)
 ~~~

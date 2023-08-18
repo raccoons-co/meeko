@@ -1,4 +1,4 @@
-/*
+package co.raccoons.meeko;/*
  * Copyright (c) 2013, 2018, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -29,13 +29,15 @@
  * @run testng OptionalIntTest
  */
 
+import org.testng.annotations.Test;
+
 import java.util.NoSuchElementException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static org.testng.Assert.*;
-
-import co.raccoons.meeko.OptionalInt;
-import org.testng.annotations.Test;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertThrows;
+import static org.testng.Assert.assertTrue;
 
 public class OptionalIntTest {
 
@@ -60,7 +62,7 @@ public class OptionalIntTest {
 
         assertThrows(NoSuchElementException.class, () -> empty.getAsInt());
         assertThrows(NoSuchElementException.class, () -> empty.orElseThrow());
-        assertThrows(ObscureException.class,       () -> empty.orElseThrow(ObscureException::new));
+        assertThrows(ObscureException.class, () -> empty.orElseThrow(ObscureException::new));
 
         var b = new AtomicBoolean();
         empty.ifPresent(s -> b.set(true));
@@ -125,11 +127,11 @@ public class OptionalIntTest {
 
     @Test(groups = "unit")
     public void testStreamEmpty() {
-        assertEquals(OptionalInt.empty().stream().toArray(), new int[] { });
+        assertEquals(OptionalInt.empty().stream().toArray(), new int[]{});
     }
 
     @Test(groups = "unit")
     public void testStreamPresent() {
-        assertEquals(OptionalInt.of(INTVAL).stream().toArray(), new int[] { INTVAL });
+        assertEquals(OptionalInt.of(INTVAL).stream().toArray(), new int[]{INTVAL});
     }
 }

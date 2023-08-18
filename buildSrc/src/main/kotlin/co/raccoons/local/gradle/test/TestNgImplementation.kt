@@ -7,13 +7,19 @@ import org.gradle.api.tasks.testing.Test
 class TestNgImplementation(private val dependencies: List<String>) : Plugin<Project> {
 
     override fun apply(project: Project) {
+        this.setupPlugin(project)
+    }
+
+    private fun setupPlugin(project: Project) {
         for (dependencyNotation in dependencies) {
             project.dependencies.add("testImplementation", dependencyNotation)
         }
 
-        project.tasks.withType(Test::class.java) { test ->
-            test.useTestNG()
-        }
+        project.tasks
+            .withType(Test::class.java)
+            .configureEach { test ->
+                test.useTestNG()
+            }
     }
 
     class Builder {

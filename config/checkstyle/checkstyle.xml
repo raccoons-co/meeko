@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE module PUBLIC
+        "-//Checkstyle//DTD Checkstyle Configuration 1.2//EN"
+        "https://checkstyle.org/dtds/configuration_1_2.dtd">
+<!--
+Copyright 2023, Raccoons
+Developing simple way to change.
+-->
+
+<module name="Checker">
+    <property name="fileExtensions" value="java"/>
+    <property name="charset" value="UTF-8"/>
+
+    <module name="SuppressionFilter">
+        <property name="file" value="${config_loc}/suppressions.xml"/>
+    </module>
+
+    <module name="TreeWalker">
+        <module name="AvoidStarImport"/>
+        <module name="RedundantImport"/>
+        <module name="ParameterNumber"/>
+        <module name="OneStatementPerLine"/>
+        <module name="MissingOverride"/>
+        <module name="NeedBraces"/>
+        <module name="EmptyBlock"/>
+        <module name="EmptyStatement"/>
+    </module>
+
+    <module name="LineLength">
+        <property name="fileExtensions" value="java"/>
+        <property name="max" value="120"/>
+    </module>
+
+    <module name="JavadocPackage"/>
+    <module name="UniqueProperties"/>
+    <module name="OrderedProperties"/>
+    <module name="FileTabCharacter"/>
+    <module name="NewlineAtEndOfFile"/>
+</module>

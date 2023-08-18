@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE suppressions PUBLIC
+        "-//Checkstyle//DTD SuppressionFilter Configuration 1.2//EN"
+        "https://checkstyle.org/dtds/suppressions_1_2.dtd">
+<!--
+Copyright 2023, Raccoons
+Developing simple way to change.
+-->
+
+<suppressions>
+    <!-- Ignore generated files in Checkstyle -->
+    <suppress files="[/\\].*[/\\]generated.*[/\\]" checks="."/>
+    <!-- Ignore Javadoc checks in test files -->
+    <suppress files="[/\\].*[/\\]src/test/java/.*[/\\]" checks="JavadocType"/>
+</suppressions>
