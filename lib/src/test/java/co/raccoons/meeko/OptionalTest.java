@@ -1,4 +1,4 @@
-/*
+package co.raccoons.meeko;/*
  * Copyright (c) 2023, 2018, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -29,16 +29,18 @@
  * @run testng OptionalTest
  */
 
+import org.testng.annotations.Test;
+
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static java.util.stream.Collectors.toList;
-
-import static org.testng.Assert.*;
-
-import co.raccoons.meeko.Optional;
-import org.testng.annotations.Test;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertThrows;
+import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.fail;
 
 public class OptionalTest {
 
@@ -60,7 +62,7 @@ public class OptionalTest {
 
         assertThrows(NoSuchElementException.class, () -> empty.get());
         assertThrows(NoSuchElementException.class, () -> empty.orElseThrow());
-        assertThrows(ObscureException.class,       () -> empty.orElseThrow(ObscureException::new));
+        assertThrows(ObscureException.class, () -> empty.orElseThrow(ObscureException::new));
 
         var b = new AtomicBoolean();
         empty.ifPresent(s -> b.set(true));
@@ -140,7 +142,10 @@ public class OptionalTest {
 
     @Test(groups = "unit")
     public void testFilterEmpty() {
-        checkEmpty(Optional.<String>empty().filter(s -> { fail(); return true; }));
+        checkEmpty(Optional.<String>empty().filter(s -> {
+            fail();
+            return true;
+        }));
     }
 
     @Test(groups = "unit")
@@ -155,7 +160,10 @@ public class OptionalTest {
 
     @Test(groups = "unit")
     public void testMapEmpty() {
-        checkEmpty(Optional.empty().map(s -> { fail(); return ""; }));
+        checkEmpty(Optional.empty().map(s -> {
+            fail();
+            return "";
+        }));
     }
 
     @Test(groups = "unit")
@@ -165,20 +173,26 @@ public class OptionalTest {
 
     @Test(groups = "unit")
     public void testFlatMapEmpty() {
-        checkEmpty(Optional.empty().flatMap(s -> { fail(); return Optional.of(""); }));
+        checkEmpty(Optional.empty().flatMap(s -> {
+            fail();
+            return Optional.of("");
+        }));
     }
 
     @Test(groups = "unit")
     public void testFlatMapPresentReturnEmpty() {
-        checkEmpty(Optional.of("xyzzy")
-                           .flatMap(s -> { assertEquals(s, "xyzzy"); return Optional.empty(); }));
+        checkEmpty(Optional.of("xyzzy").flatMap(s -> {
+            assertEquals(s, "xyzzy");
+            return Optional.empty();
+        }));
     }
 
     @Test(groups = "unit")
     public void testFlatMapPresentReturnPresent() {
-        checkPresent(Optional.of("xyzzy")
-                             .flatMap(s -> { assertEquals(s, "xyzzy"); return Optional.of("plugh"); }),
-                     "plugh");
+        checkPresent(Optional.of("xyzzy").flatMap(s -> {
+            assertEquals(s, "xyzzy");
+            return Optional.of("plugh");
+        }), "plugh");
     }
 
     @Test(groups = "unit")
@@ -193,7 +207,10 @@ public class OptionalTest {
 
     @Test(groups = "unit")
     public void testOrPresentDontCare() {
-        checkPresent(Optional.of("xyzzy").or(() -> { fail(); return Optional.of("plugh"); }), "xyzzy");
+        checkPresent(Optional.of("xyzzy").or(() -> {
+            fail();
+            return Optional.of("plugh");
+        }), "xyzzy");
     }
 
     @Test(groups = "unit")

@@ -7,15 +7,24 @@ import org.gradle.testing.jacoco.tasks.JacocoReport
 class JacocoConfiguration(private val reportFormats: List<JacocoReportFormat>) : Plugin<Project> {
 
     override fun apply(project: Project) {
+        this.setupPlugin(project)
+        this.enableReports(project)
+    }
+
+    private fun setupPlugin(project: Project) {
         project.plugins.apply("jacoco")
+    }
 
-        project.tasks.withType(JacocoReport::class.java) { jacocoReport ->
-            jacocoReport.dependsOn("test")
+    private fun enableReports(project: Project) {
+        project.tasks
+            .withType(JacocoReport::class.java)
+            .configureEach { jacocoReport ->
+                jacocoReport.dependsOn("test")
 
-            for (format in this.reportFormats) {
-                format.subscribeTo(jacocoReport.reports)
+                for (format in this.reportFormats) {
+                    format.subscribeTo(jacocoReport.reports)
+                }
             }
-        }
     }
 
     class Builder {

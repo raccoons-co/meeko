@@ -10,10 +10,12 @@ enum class Version {
     JAVA {
         override fun of(version: Int): Plugin<Project> {
             return Plugin<Project> { project ->
-                project.tasks.withType(JavaCompile::class.java) { javaCompile ->
-                    javaCompile.sourceCompatibility = JavaLanguageVersion.of(version).toString()
-                    javaCompile.targetCompatibility = JavaLanguageVersion.of(version).toString()
-                }
+                project.tasks
+                    .withType(JavaCompile::class.java)
+                    .configureEach { javaCompile ->
+                        javaCompile.sourceCompatibility = JavaLanguageVersion.of(version).toString()
+                        javaCompile.targetCompatibility = JavaLanguageVersion.of(version).toString()
+                    }
             }
         }
     };

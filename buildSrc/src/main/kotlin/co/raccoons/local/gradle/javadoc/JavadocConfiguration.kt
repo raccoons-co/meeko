@@ -8,9 +8,15 @@ import org.gradle.external.javadoc.StandardJavadocDocletOptions
 class JavadocConfiguration(private val tags: List<String>) : Plugin<Project> {
 
     override fun apply(project: Project) {
-        project.tasks.withType(Javadoc::class.java) { javadoc ->
-            (javadoc.options as StandardJavadocDocletOptions).tags(tags)
-        }
+        this.setupPlugin(project)
+    }
+
+    private fun setupPlugin(project: Project) {
+        project.tasks
+            .withType(Javadoc::class.java)
+            .configureEach { javadoc ->
+                (javadoc.options as StandardJavadocDocletOptions).tags(tags)
+            }
     }
 
     class Builder {
