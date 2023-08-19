@@ -1,4 +1,4 @@
-package co.raccoons.meeko;/*
+/*
  * Copyright (c) 2013, 2018, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -20,6 +20,8 @@ package co.raccoons.meeko;/*
  * or visit www.oracle.com if you need additional information or have any
  * questions.
  */
+
+package co.raccoons.meeko;
 
 /**
  * A unique exception used for checking exception types.

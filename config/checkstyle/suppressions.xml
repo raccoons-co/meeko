@@ -3,10 +3,10 @@
         "-//Checkstyle//DTD SuppressionFilter Configuration 1.2//EN"
         "https://checkstyle.org/dtds/suppressions_1_2.dtd">
 <!--
-Copyright 2023, Raccoons
-Developing simple way to change.
+ * Copyright 2023, Raccoons. Developing simple way to change.
+ *
+ * @license MIT
 -->
-
 <suppressions>
     <!-- Ignore generated files in Checkstyle -->
     <suppress files="[/\\].*[/\\]generated.*[/\\]" checks="."/>
