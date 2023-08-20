@@ -1,8 +1,10 @@
 plugins {
     kotlin("jvm") version "1.9.0"
+    id("org.jlleitschuh.gradle.ktlint") version "11.5.1"
 }
 
-repositories{
+repositories {
+    mavenLocal()
     mavenCentral()
 }
 
@@ -11,6 +13,6 @@ dependencies {
     implementation(gradleApi())
 }
 
-kotlin{
+kotlin {
     jvmToolchain(JavaLanguageVersion.of(20).asInt())
 }

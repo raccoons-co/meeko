@@ -15,4 +15,3 @@ abstract class Dependency(
 
     fun dependencyNotation() = dependencyNotation
 }
-
