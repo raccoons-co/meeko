@@ -3,13 +3,13 @@ package co.raccoons.local.gradle.java
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
+private const val JAVA_LIBRARY = "java-library"
+
 class JavaLibraryConfiguration(private val dependencyScope: DependencyScope) :
     Plugin<Project> {
 
     companion object {
-        public fun default(): JavaLibraryConfiguration {
-            return JavaLibraryConfiguration.Builder().build()
-        }
+        fun default() = Builder().build()
     }
 
     override fun apply(project: Project) {
@@ -17,7 +17,7 @@ class JavaLibraryConfiguration(private val dependencyScope: DependencyScope) :
     }
 
     private fun setupPlugin(project: Project) {
-        project.plugins.apply("java-library")
+        project.plugins.apply(JAVA_LIBRARY)
         dependencyScope.apply(project)
     }
 
@@ -30,8 +30,6 @@ class JavaLibraryConfiguration(private val dependencyScope: DependencyScope) :
             return this
         }
 
-        public fun build(): JavaLibraryConfiguration {
-            return JavaLibraryConfiguration(this.dependencyScope)
-        }
+        public fun build() = JavaLibraryConfiguration(this.dependencyScope)
     }
 }

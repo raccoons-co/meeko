@@ -11,11 +11,8 @@ abstract class Dependency(
     private val dependencyNotation: DependencyNotation
 ) {
 
-    fun configurationName(): String {
-        return configurationName
-    }
+    fun configurationName() = configurationName
 
-    fun dependencyNotation(): String {
-        return dependencyNotation.toString()
-    }
+    fun dependencyNotation() = dependencyNotation
 }
+

@@ -31,8 +31,6 @@ class TestNG(private val dependencyScope: DependencyScope) : Plugin<Project> {
             return this
         }
 
-        fun build(): TestNG {
-            return TestNG(this.dependencyScope)
-        }
+        fun build() = TestNG(this.dependencyScope)
     }
 }

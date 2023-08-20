@@ -1,10 +1,12 @@
 package co.raccoons.local.gradle.checkstyle
 
-import co.raccoons.local.gradle.Defaults
+import co.raccoons.local.gradle.Presets
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.quality.Checkstyle
 import org.gradle.api.plugins.quality.CheckstyleExtension
+
+private const val CHECKSTYLE_PLUGIN_ID = "checkstyle"
 
 class CheckstyleConfiguration(
     private val toolVersion: String,
@@ -17,7 +19,7 @@ class CheckstyleConfiguration(
     }
 
     private fun setupPlugin(project: Project) {
-        project.plugins.apply("checkstyle")
+        project.plugins.apply(CHECKSTYLE_PLUGIN_ID)
         val checkstyleExtension = project.extensions.getByType(CheckstyleExtension::class.java)
         checkstyleExtension.toolVersion = this.toolVersion
     }
@@ -34,7 +36,7 @@ class CheckstyleConfiguration(
 
     class Builder {
 
-        private var toolVersion = Defaults.CHECKSTYLE.version()
+        private var toolVersion = Presets.CHECKSTYLE.version()
         private val enabledFormats = mutableListOf<CheckstyleReportFormat>()
 
         fun setVersion(version: String): Builder {
@@ -47,8 +49,6 @@ class CheckstyleConfiguration(
             return this
         }
 
-        fun build(): CheckstyleConfiguration {
-            return CheckstyleConfiguration(this.toolVersion, this.enabledFormats)
-        }
+        fun build() = CheckstyleConfiguration(this.toolVersion, this.enabledFormats)
     }
 }

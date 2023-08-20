@@ -11,7 +11,7 @@ import org.gradle.api.Project
 
 class DependencyScope : Plugin<Project> {
 
-    private val dependencies: MutableMap<String, MutableList<String>> = mutableMapOf()
+    private val dependencies = mutableMapOf<String, MutableList<String>>()
 
     override fun apply(project: Project) {
         for ((configurationName, configurationDependencies) in dependencies) {
@@ -24,6 +24,6 @@ class DependencyScope : Plugin<Project> {
     fun add(dependency: Dependency) {
         this.dependencies.getOrPut(dependency.configurationName()) {
             mutableListOf()
-        }.add(dependency.dependencyNotation())
+        }.add(dependency.dependencyNotation().toString())
     }
 }

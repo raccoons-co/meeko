@@ -4,7 +4,7 @@
  * @license MIT
  */
 
-import co.raccoons.local.gradle.BuildConfiguration
+import co.raccoons.local.gradle.GradleBuild
 import co.raccoons.local.gradle.checkstyle.CheckstyleConfiguration
 import co.raccoons.local.gradle.checkstyle.CheckstyleReportFormat
 import co.raccoons.local.gradle.jacoco.JacocoConfiguration
@@ -17,42 +17,42 @@ import co.raccoons.local.gradle.javadoc.JavadocTag
 import co.raccoons.local.gradle.repository.Repository
 import co.raccoons.local.gradle.test.TestNG
 
-BuildConfiguration.of(project)
+GradleBuild.of(project)
     .use(Repository.MAVEN_CENTRAL)
     .use(Repository.MAVEN_LOCAL)
-    .use(Configuration.javaLibrary())
+    .use(Configuration.javaLibrary)
     .use(Version.JAVA.of(20))
-    .use(Configuration.testNG())
-    .use(Configuration.jacoco())
-    .use(Configuration.javadoc())
-    .use(Configuration.checkstyle())
+    .use(Configuration.testNG)
+    .use(Configuration.jacoco)
+    .use(Configuration.javadoc)
+    .use(Configuration.checkstyle)
 
-class Configuration {
+internal class Configuration {
     companion object {
 
-        fun javaLibrary() =
+        val javaLibrary =
             JavaLibraryConfiguration.default()
 
-        fun testNG() =
+        val testNG =
             TestNG.Builder()
                 .addDependency(TestImplementation("org.testng", "testng", "7.8.0"))
                 .addDependency(TestImplementation("org.slf4j", "slf4j-simple", "2.0.7"))
                 .build()
 
-        fun jacoco() =
+        val jacoco =
             JacocoConfiguration.Builder()
                 .enable(JacocoReportFormat.HTML)
                 .enable(JacocoReportFormat.XML)
                 .build()
 
-        fun javadoc() =
+        val javadoc =
             JavadocConfiguration.Builder()
                 .addTag(JavadocTag("apiNote", "API Note"))
                 .addTag(JavadocTag("implSpec", "Implementation Specification"))
                 .addTag(JavadocTag("implNote", "Implementation Note"))
                 .build()
 
-        fun checkstyle() =
+        val checkstyle =
             CheckstyleConfiguration.Builder()
                 .setVersion("10.12.2")
                 .enable(CheckstyleReportFormat.HTML)

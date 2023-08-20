@@ -6,10 +6,10 @@
 
 package co.raccoons.local.gradle.java
 
-class TestImplementation(
-    private val group: String,
-    private val name: String,
-    private val version: String,
-) : Dependency("testImplementation", DependencyNotation(group, name, version)) {
+private const val CONFIGURATION_NAME = "testImplementation"
 
-}
+class TestImplementation(
+    group: String,
+    name: String,
+    version: String,
+) : Dependency(CONFIGURATION_NAME, DependencyNotation(group, name, version))
