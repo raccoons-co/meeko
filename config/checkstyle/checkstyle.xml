@@ -3,8 +3,9 @@
         "-//Checkstyle//DTD Checkstyle Configuration 1.2//EN"
         "https://checkstyle.org/dtds/configuration_1_2.dtd">
 <!--
-Copyright 2023, Raccoons
-Developing simple way to change.
+ * Copyright 2023, Raccoons. Developing simple way to change.
+ *
+ * @license MIT
 -->
 
 <module name="Checker">

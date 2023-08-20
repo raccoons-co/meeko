@@ -8,14 +8,12 @@ enum class CheckstyleReportFormat {
         override fun subscribeTo(checkstyleReports: CheckstyleReports) {
             checkstyleReports.html.required.set(true)
         }
-
     },
 
     XML {
         override fun subscribeTo(checkstyleReports: CheckstyleReports) {
             checkstyleReports.xml.required.set(true)
         }
-
     };
 
     abstract fun subscribeTo(checkstyleReports: CheckstyleReports)

@@ -28,8 +28,6 @@ class JavadocConfiguration(private val tags: List<String>) : Plugin<Project> {
             return this
         }
 
-        fun build(): JavadocConfiguration {
-            return JavadocConfiguration(this.tags.toList())
-        }
+        fun build() = JavadocConfiguration(this.tags.toList())
     }
 }

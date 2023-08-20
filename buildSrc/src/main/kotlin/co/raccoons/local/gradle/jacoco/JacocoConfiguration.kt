@@ -4,6 +4,8 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.testing.jacoco.tasks.JacocoReport
 
+private const val JACOCO_PLUGIN_ID = "jacoco"
+
 class JacocoConfiguration(private val reportFormats: List<JacocoReportFormat>) : Plugin<Project> {
 
     override fun apply(project: Project) {
@@ -12,7 +14,7 @@ class JacocoConfiguration(private val reportFormats: List<JacocoReportFormat>) :
     }
 
     private fun setupPlugin(project: Project) {
-        project.plugins.apply("jacoco")
+        project.plugins.apply(JACOCO_PLUGIN_ID)
     }
 
     private fun enableReports(project: Project) {
@@ -36,9 +38,6 @@ class JacocoConfiguration(private val reportFormats: List<JacocoReportFormat>) :
             return this
         }
 
-        fun build(): JacocoConfiguration {
-            return JacocoConfiguration(this.enabledFormats)
-        }
+        fun build() = JacocoConfiguration(this.enabledFormats)
     }
-
 }
