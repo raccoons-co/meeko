@@ -12,5 +12,5 @@ class DependencyNotation(
     private val version: String
 ) {
 
-    override fun toString() = "${group}:${name}:${version}"
+    override fun toString() = "$group:$name:$version"
 }

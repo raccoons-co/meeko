@@ -11,5 +11,5 @@ private const val CONFIGURATION_NAME = "testImplementation"
 class TestImplementation(
     group: String,
     name: String,
-    version: String,
+    version: String
 ) : Dependency(CONFIGURATION_NAME, DependencyNotation(group, name, version))

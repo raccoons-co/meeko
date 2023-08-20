@@ -14,7 +14,6 @@ class GradleBuild private constructor() {
          * Returns build configuration handler of this project.
          */
         fun of(project: Project): ConfigurationHandler {
-
             /**
              * Build configuration handler that applies configuration to project.
              */
