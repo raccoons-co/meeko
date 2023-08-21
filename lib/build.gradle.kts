@@ -32,50 +32,6 @@ GradleBuild.of(clean(project))
     .use(Configuration.checkstyle)
     .use(Configuration.mavenPublish)
 
-/*
-
-publishing {
-    publications {
-        create<MavenPublication>("mavenJava") {
-            artifactId = "my-library"
-            from(components["java"])
-            versionMapping {
-                usage("java-api") {
-                    fromResolutionOf("runtimeClasspath")
-                }
-                usage("java-runtime") {
-                    fromResolutionResult()
-                }
-            }
-            pom {
-                name.set("My Library")
-                description.set("A concise description of my library")
-                url.set("http://www.example.com/library")
-                properties.set(mapOf(
-                    "myProp" to "value",
-                    "prop.with.dots" to "anotherValue"
-                ))
-                licenses {
-                    license {
-                        name.set("The Apache License, Version 2.0")
-                        url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
-                    }
-                }
-            }
-        }
-    }
-    repositories {
-        maven {
-            // change URLs to point to your repos, e.g. http://my.org/repo
-            val releasesRepoUrl = uri(layout.buildDirectory.dir("repos/releases"))
-            val snapshotsRepoUrl = uri(layout.buildDirectory.dir("repos/snapshots"))
-            url = if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl
-        }
-    }
-}*/
-
-
-
 internal object Configuration {
 
     val javaLibrary =
