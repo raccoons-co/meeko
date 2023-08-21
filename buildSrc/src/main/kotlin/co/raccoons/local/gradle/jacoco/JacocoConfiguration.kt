@@ -6,7 +6,8 @@ import org.gradle.testing.jacoco.tasks.JacocoReport
 
 private const val JACOCO_PLUGIN_ID = "jacoco"
 
-class JacocoConfiguration(private val reportFormats: List<JacocoReportFormat>) : Plugin<Project> {
+class JacocoConfiguration private constructor(private val reportFormats: List<JacocoReportFormat>) :
+    Plugin<Project> {
 
     override fun apply(project: Project) {
         this.setupPlugin(project)

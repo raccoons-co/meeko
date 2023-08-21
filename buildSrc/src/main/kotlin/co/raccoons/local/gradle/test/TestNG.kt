@@ -6,7 +6,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.testing.Test
 
-class TestNG(private val dependencyScope: DependencyScope) : Plugin<Project> {
+class TestNG private constructor(private val dependencyScope: DependencyScope) : Plugin<Project> {
 
     override fun apply(project: Project) {
         this.setupPlugin(project)

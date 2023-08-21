@@ -4,4 +4,7 @@
  * @license MIT
  */
 
+/**
+ * Meeko package
+ */
 package co.raccoons.meeko;

@@ -20,8 +20,9 @@ class CheckstyleConfiguration(
 
     private fun setupPlugin(project: Project) {
         project.plugins.apply(CHECKSTYLE_PLUGIN_ID)
-        val checkstyleExtension = project.extensions.getByType(CheckstyleExtension::class.java)
-        checkstyleExtension.toolVersion = this.toolVersion
+        project.extensions
+            .getByType(CheckstyleExtension::class.java)
+            .toolVersion = this.toolVersion
     }
 
     private fun enableReports(project: Project) {

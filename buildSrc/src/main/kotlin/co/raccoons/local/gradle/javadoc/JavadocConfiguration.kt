@@ -5,7 +5,7 @@ import org.gradle.api.Project
 import org.gradle.api.tasks.javadoc.Javadoc
 import org.gradle.external.javadoc.StandardJavadocDocletOptions
 
-class JavadocConfiguration(private val tags: List<String>) : Plugin<Project> {
+class JavadocConfiguration private constructor(private val tags: List<String>) : Plugin<Project> {
 
     override fun apply(project: Project) {
         this.setupPlugin(project)
