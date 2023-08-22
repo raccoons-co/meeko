@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package raccoons.maven;
+
+option java_package = "co.raccoons.local.gradle.publish.maven";
+option java_outer_classname = "PomLicenseProto";
+
+// A license of a Maven publication.
+message PomLicense {
+
+  // The name of the license.
+  string name = 1;
+
+  // The URL of the license.
+  string url = 2;
+}

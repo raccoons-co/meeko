@@ -21,9 +21,11 @@ class DependencyScope : Plugin<Project> {
         }
     }
 
-    fun add(dependency: Dependency) {
+    fun add(dependency: Dependency): DependencyScope {
         this.dependencies.getOrPut(dependency.configurationName()) {
             mutableListOf()
         }.add(dependency.dependencyNotation().toString())
+
+        return this
     }
 }

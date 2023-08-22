@@ -6,6 +6,7 @@
 
 package co.raccoons.local.gradle.publish
 
+import co.raccoons.local.gradle.publish.maven.PublicationProto.Publication
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginExtension
@@ -14,7 +15,9 @@ import org.gradle.api.publish.maven.MavenPublication
 
 private const val MAVEN_PUBLISH_PLUGIN_ID = "maven-publish"
 
-class MavenPublishConfiguration private constructor() : Plugin<Project> {
+class MavenPublishConfiguration private constructor(
+    private val publication: Publication
+) : Plugin<Project> {
 
     override fun apply(project: Project) {
         this.setupPlugin(project)
@@ -22,6 +25,7 @@ class MavenPublishConfiguration private constructor() : Plugin<Project> {
         this.addTaskPackageJavadoc(project)
         this.createMavenPublication(project)
     }
+
 
     private fun setupPlugin(project: Project) {
         project.plugins.apply(MAVEN_PUBLISH_PLUGIN_ID)
@@ -44,7 +48,7 @@ class MavenPublishConfiguration private constructor() : Plugin<Project> {
             .getByType(PublishingExtension::class.java)
             .publications { container ->
                 container.create("mavenJava", MavenPublication::class.java) { publication ->
-                    publication.artifactId = "meeko"
+                    publication.artifactId = this.publication.artifactId
 
                     publication.from(project.components.getByName("java"))
 
@@ -53,10 +57,10 @@ class MavenPublishConfiguration private constructor() : Plugin<Project> {
                         pom.description.set("Java Base Util")
                         pom.url.set("https://bus.raccoons.co/artefacts/meeko")
 
-                        pom.licenses { licenseSpec ->
-                            licenseSpec.license { pomLicense ->
-                                pomLicense.name.set("MIT License")
-                                pomLicense.url.set("https://opensource.org/licenses/MIT")
+                        pom.licenses { spec ->
+                            spec.license { pomLicense ->
+                                pomLicense.name.set(this.publication.pomLicense.name)
+                                pomLicense.url.set(this.publication.pomLicense.url)
                             }
                         }
                     }
@@ -64,7 +68,30 @@ class MavenPublishConfiguration private constructor() : Plugin<Project> {
             }
     }
 
-    class Builder {
-        fun build() = MavenPublishConfiguration()
+    companion object {
+        fun newBuilder(): MavenPublishConfigurationBuilder {
+
+            class Builder : MavenPublishConfigurationBuilder {
+
+                private var publication = Publication.newBuilder().build()
+
+                override fun setPublication(publication: Publication): MavenPublishConfigurationBuilder{
+                    return this
+                }
+
+                override fun build(): MavenPublishConfiguration {
+                    return MavenPublishConfiguration(this.publication)
+                }
+            }
+
+            return Builder()
+        }
+
+        interface MavenPublishConfigurationBuilder {
+
+            fun setPublication(publication: Publication): MavenPublishConfigurationBuilder
+
+            fun build(): MavenPublishConfiguration
+        }
     }
 }

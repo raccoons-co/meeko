@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package raccoons.maven;
+
+import "raccoons/maven/PomLicense.proto";
+
+option java_package = "co.raccoons.local.gradle.publish.maven";
+option java_outer_classname = "PublicationProto";
+
+message Publication {
+
+  string artifactId = 1 ;
+
+  PomLicense pom_license = 2;
+}
