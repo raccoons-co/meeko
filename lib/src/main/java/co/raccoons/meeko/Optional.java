@@ -479,7 +479,6 @@ public class Optional<T> {
      * @return {@code true} if the other object is "equal to" this object
      * otherwise {@code false}
      */
-/*
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -489,7 +488,6 @@ public class Optional<T> {
         return obj instanceof Optional<?> other
                 && Objects.equals(value, other.value);
     }
-*/
 
     /**
      * Returns the hash code of the value, if present, otherwise {@code 0}
