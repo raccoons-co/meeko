@@ -4,10 +4,9 @@
  * @license MIT
  */
 
-import co.raccoons.local.gradle.GradleBuild
+import co.raccoons.local.gradle.BuildWorkflow
 import co.raccoons.local.gradle.checkstyle.CheckstyleConfiguration
 import co.raccoons.local.gradle.checkstyle.CheckstyleReportFormat
-import co.raccoons.local.gradle.fs.clean
 import co.raccoons.local.gradle.jacoco.JacocoConfiguration
 import co.raccoons.local.gradle.jacoco.JacocoReportFormat
 import co.raccoons.local.gradle.java.JavaLibraryConfiguration
@@ -19,7 +18,7 @@ import co.raccoons.local.gradle.publish.MavenPublishConfiguration
 import co.raccoons.local.gradle.repository.Repository
 import co.raccoons.local.gradle.test.TestNG
 
-GradleBuild.of(clean(project))
+BuildWorkflow.of(project)
     .setGroup("co.raccoons")
     .setVersion("1.0")
     .use(Repository.MAVEN_LOCAL)
