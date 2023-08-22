@@ -6,7 +6,7 @@
 
 package co.raccoons.local.gradle.publish
 
-import co.raccoons.local.gradle.publish.maven.PublicationProto.Publication
+import co.raccoons.local.gradle.publish.maven.Publication
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginExtension
@@ -15,9 +15,7 @@ import org.gradle.api.publish.maven.MavenPublication
 
 private const val MAVEN_PUBLISH_PLUGIN_ID = "maven-publish"
 
-class MavenPublishConfiguration private constructor(
-    private val publication: Publication
-) : Plugin<Project> {
+class MavenPublishConfiguration(private val publication: Publication) : Plugin<Project> {
 
     override fun apply(project: Project) {
         this.setupPlugin(project)
@@ -53,45 +51,18 @@ class MavenPublishConfiguration private constructor(
                     publication.from(project.components.getByName("java"))
 
                     publication.pom { pom ->
-                        pom.name.set("Meeko")
-                        pom.description.set("Java Base Util")
-                        pom.url.set("https://bus.raccoons.co/artefacts/meeko")
+                        pom.name.set(this.publication.pom.name)
+                        pom.description.set(this.publication.pom.description)
+                        pom.url.set(this.publication.pom.url)
 
                         pom.licenses { spec ->
                             spec.license { pomLicense ->
-                                pomLicense.name.set(this.publication.pomLicense.name)
-                                pomLicense.url.set(this.publication.pomLicense.url)
+                                pomLicense.name.set(this.publication.pom.license.name)
+                                pomLicense.url.set(this.publication.pom.license.url)
                             }
                         }
                     }
                 }
             }
-    }
-
-    companion object {
-        fun newBuilder(): MavenPublishConfigurationBuilder {
-
-            class Builder : MavenPublishConfigurationBuilder {
-
-                private var publication = Publication.newBuilder().build()
-
-                override fun setPublication(publication: Publication): MavenPublishConfigurationBuilder{
-                    return this
-                }
-
-                override fun build(): MavenPublishConfiguration {
-                    return MavenPublishConfiguration(this.publication)
-                }
-            }
-
-            return Builder()
-        }
-
-        interface MavenPublishConfigurationBuilder {
-
-            fun setPublication(publication: Publication): MavenPublishConfigurationBuilder
-
-            fun build(): MavenPublishConfiguration
-        }
     }
 }

@@ -15,8 +15,9 @@ import co.raccoons.local.gradle.javacompile.Version
 import co.raccoons.local.gradle.javadoc.JavadocConfiguration
 import co.raccoons.local.gradle.javadoc.JavadocTag
 import co.raccoons.local.gradle.publish.MavenPublishConfiguration
-import co.raccoons.local.gradle.publish.maven.PomLicenseProto.PomLicense
-import co.raccoons.local.gradle.publish.maven.PublicationProto.Publication
+import co.raccoons.local.gradle.publish.maven.Pom
+import co.raccoons.local.gradle.publish.maven.License
+import co.raccoons.local.gradle.publish.maven.Publication
 import co.raccoons.local.gradle.repository.Repository
 import co.raccoons.local.gradle.test.TestNG
 
@@ -25,8 +26,8 @@ BuildWorkflow.of(project)
     .setVersion("1.0")
     .use(Repository.MAVEN_LOCAL)
     .use(Repository.MAVEN_CENTRAL)
-    .use(Configuration.javaLibrary())
-    .use(Version.JAVA.of(20))
+    .use(JavaLibraryConfiguration.default())
+    .use(Version.JAVA.of(11))
     .use(Configuration.testNG())
     .use(Configuration.jacoco())
     .use(Configuration.javadoc())
@@ -35,49 +36,52 @@ BuildWorkflow.of(project)
 
 internal object Configuration {
 
-    fun javaLibrary() =
-        JavaLibraryConfiguration.default()
-
     fun testNG() =
-        TestNG.Builder()
+        TestNG.newBuilder()
             .addDependency(TestImplementation("org.testng", "testng", "7.8.0"))
             .addDependency(TestImplementation("org.slf4j", "slf4j-simple", "2.0.7"))
             .build()
 
     fun jacoco() =
-        JacocoConfiguration.Builder()
+        JacocoConfiguration.newBuilder()
             .enable(JacocoReportFormat.HTML)
             .enable(JacocoReportFormat.XML)
             .build()
 
     fun javadoc() =
-        JavadocConfiguration.Builder()
+        JavadocConfiguration.newBuilder()
             .addTag(JavadocTag("apiNote", "API Note"))
             .addTag(JavadocTag("implSpec", "Implementation Specification"))
             .addTag(JavadocTag("implNote", "Implementation Note"))
             .build()
 
     fun checkstyle() =
-        CheckstyleConfiguration.Builder()
+        CheckstyleConfiguration.newBuilder()
             .setVersion("10.12.2")
             .enable(CheckstyleReportFormat.HTML)
             .build()
 
     fun mavenPublish(): MavenPublishConfiguration {
         val license =
-            PomLicense.newBuilder()
+            License.newBuilder()
                 .setName("Meeko")
-                .setUrl("https://bus.raccoons.co/meeko")
+                .setUrl("https://opensource.org/license/mit")
+                .build()
+
+        val pom =
+            Pom.newBuilder()
+                .setName("Meeko")
+                .setDescription("Java Base Util")
+                .setUrl("https://bus.raccoons.co/artefacts/meeko")
+                .setLicense(license)
                 .build()
 
         val publication =
             Publication.newBuilder()
                 .setArtifactId("meeko")
-                .setPomLicense(license)
+                .setPom(pom)
                 .build()
 
-        return MavenPublishConfiguration.newBuilder()
-            .setPublication(publication)
-            .build()
+        return MavenPublishConfiguration(publication)
     }
 }

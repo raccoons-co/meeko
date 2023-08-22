@@ -30,15 +30,30 @@ class JacocoConfiguration private constructor(private val reportFormats: List<Ja
             }
     }
 
-    class Builder {
+    companion object {
+        /**
+         * Returns new JacocoConfigurationBuilder instance.
+         */
+        fun newBuilder(): JacocoConfigurationBuilder {
+            class Builder : JacocoConfigurationBuilder {
 
-        private val enabledFormats = mutableListOf<JacocoReportFormat>()
+                private val enabledFormats = mutableListOf<JacocoReportFormat>()
 
-        fun enable(reportFormat: JacocoReportFormat): Builder {
-            this.enabledFormats.add(reportFormat)
-            return this
+                override fun enable(reportFormat: JacocoReportFormat): Builder {
+                    this.enabledFormats.add(reportFormat)
+                    return this
+                }
+
+                override fun build() = JacocoConfiguration(this.enabledFormats)
+            }
+            return Builder()
         }
 
-        fun build() = JacocoConfiguration(this.enabledFormats)
+        interface JacocoConfigurationBuilder {
+
+            fun enable(reportFormat: JacocoReportFormat): JacocoConfigurationBuilder
+
+            fun build(): JacocoConfiguration
+        }
     }
 }

@@ -12,7 +12,7 @@ repositories {
 dependencies {
     implementation(kotlin("stdlib"))
     implementation(gradleApi())
-    implementation("com.google.protobuf:protobuf-kotlin:3.24.1")
+    implementation("com.google.protobuf:protobuf-java:3.24.1")
 }
 
 kotlin {
