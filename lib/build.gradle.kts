@@ -34,6 +34,7 @@ BuildWorkflow.of(project)
     .use(Configuration.checkstyle())
     .use(Configuration.mavenPublish())
 
+
 internal object Configuration {
 
     fun testNG() =

@@ -17,30 +17,22 @@ class JavaLibraryConfiguration private constructor(private val dependencyScope: 
         dependencyScope.apply(project)
     }
 
-    companion object{
+    companion object {
 
         fun default() = this.newBuilder().build()
 
-        fun newBuilder(): JavaLibraryConfigurationBuilder {
-            class Builder:  JavaLibraryConfigurationBuilder{
+        fun newBuilder() = Builder()
 
-                private val dependencyScope = DependencyScope()
+        class Builder {
 
-                override fun addDependency(dependency: Dependency): Builder {
-                    this.dependencyScope.add(dependency)
-                    return this
-                }
+            private val dependencyScope = DependencyScope()
 
-                override fun build() = JavaLibraryConfiguration(this.dependencyScope)
+            fun addDependency(dependency: Dependency): Builder {
+                this.dependencyScope.add(dependency)
+                return this
             }
-            return Builder()
-        }
 
-        interface JavaLibraryConfigurationBuilder {
-
-            fun addDependency(dependency: Dependency):JavaLibraryConfigurationBuilder
-
-            fun build():  JavaLibraryConfiguration
+            fun build() = JavaLibraryConfiguration(this.dependencyScope)
         }
     }
 }

@@ -21,29 +21,18 @@ class JavadocConfiguration private constructor(private val tags: List<String>) :
 
     companion object {
 
-        fun newBuilder(): JavadocConfigurationBuilder {
+        fun newBuilder() = Builder()
 
+        class Builder {
 
-            class Builder : JavadocConfigurationBuilder {
+            private val tags = mutableListOf<String>()
 
-                private val tags = mutableListOf<String>()
-
-                override fun addTag(tag: JavadocTag): Builder {
-                    this.tags.add(tag.toString())
-                    return this
-                }
-
-                override fun build() = JavadocConfiguration(this.tags.toList())
+            fun addTag(tag: JavadocTag): Builder {
+                this.tags.add(tag.toString())
+                return this
             }
 
-            return Builder()
-        }
-
-        interface JavadocConfigurationBuilder {
-
-            fun addTag(tag: JavadocTag): JavadocConfigurationBuilder
-
-            fun build(): JavadocConfiguration
+            fun build() = JavadocConfiguration(this.tags.toList())
         }
     }
 }

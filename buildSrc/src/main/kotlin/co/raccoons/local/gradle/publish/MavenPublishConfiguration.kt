@@ -24,7 +24,6 @@ class MavenPublishConfiguration(private val publication: Publication) : Plugin<P
         this.createMavenPublication(project)
     }
 
-
     private fun setupPlugin(project: Project) {
         project.plugins.apply(MAVEN_PUBLISH_PLUGIN_ID)
     }

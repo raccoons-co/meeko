@@ -37,36 +37,24 @@ class CheckstyleConfiguration(
 
     companion object {
 
-        fun newBuilder(): CheckstyleConfigurationBuilder {
-            class Builder : CheckstyleConfigurationBuilder {
+        fun newBuilder() = Builder()
 
-                private var toolVersion = Presets.CHECKSTYLE.version()
-                private val enabledFormats = mutableListOf<CheckstyleReportFormat>()
+        class Builder {
 
-                override fun setVersion(version: String): Builder {
-                    this.toolVersion = version
-                    return this
-                }
+            private var toolVersion = Presets.CHECKSTYLE.version()
+            private val enabledFormats = mutableListOf<CheckstyleReportFormat>()
 
-                override fun enable(reportFormat: CheckstyleReportFormat): Builder {
-                    this.enabledFormats.add(reportFormat)
-                    return this
-                }
-
-                override fun build() =
-                    CheckstyleConfiguration(this.toolVersion, this.enabledFormats)
+            fun setVersion(version: String): Builder {
+                this.toolVersion = version
+                return this
             }
 
-            return Builder()
-        }
+            fun enable(reportFormat: CheckstyleReportFormat): Builder {
+                this.enabledFormats.add(reportFormat)
+                return this
+            }
 
-        interface CheckstyleConfigurationBuilder {
-
-            fun setVersion(version: String): CheckstyleConfigurationBuilder
-
-            fun enable(reportFormat: CheckstyleReportFormat): CheckstyleConfigurationBuilder
-
-            fun build(): CheckstyleConfiguration
+            fun build() = CheckstyleConfiguration(this.toolVersion, this.enabledFormats)
         }
     }
 }
