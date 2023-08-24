@@ -75,6 +75,7 @@ public class OptionalLongTest {
         assertFalse(b1.get());
         assertTrue(b2.get());
 
+        assertTrue(empty.equals(empty));
         assertEquals(empty.toString(), "OptionalLong.empty");
     }
 
@@ -111,6 +112,7 @@ public class OptionalLongTest {
         assertTrue(b1.get());
         assertFalse(b2.get());
 
+        assertTrue(opt.equals(opt));
         assertEquals(opt.toString(), "OptionalLong[" + expected + "]");
     }
 

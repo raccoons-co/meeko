@@ -75,6 +75,7 @@ public class OptionalDoubleTest {
         assertFalse(b1.get());
         assertTrue(b2.get());
 
+        assertTrue(empty.equals(empty));
         assertEquals(empty.toString(), "OptionalDouble.empty");
     }
 
@@ -111,6 +112,7 @@ public class OptionalDoubleTest {
         assertTrue(b1.get());
         assertFalse(b2.get());
 
+        assertTrue(opt.equals(opt));
         assertEquals(opt.toString(), "OptionalDouble[" + expected + "]");
     }
 
