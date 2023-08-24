@@ -22,6 +22,11 @@
  * or visit www.oracle.com if you need additional information or have any
  * questions.
  */
+
+/*
+ * @summary Refactored java.util.OptionalInt
+ * @author Oleksii Kucheruk
+ */
 package co.raccoons.meeko;
 
 import java.util.NoSuchElementException;

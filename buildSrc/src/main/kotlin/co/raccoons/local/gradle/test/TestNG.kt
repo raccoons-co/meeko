@@ -23,28 +23,19 @@ class TestNG private constructor(private val dependencyScope: DependencyScope) :
     }
 
     companion object {
-        fun newBuilder(): TestNgBuilder {
-            class Builder : TestNgBuilder {
 
-                private val dependencyScope = DependencyScope()
+        fun newBuilder() = Builder()
 
-                override fun addDependency(dependency: Dependency): Builder {
-                    this.dependencyScope.add(dependency)
-                    return this
-                }
+        class Builder {
 
-                override fun build() = TestNG(this.dependencyScope)
+            private val dependencyScope = DependencyScope()
+
+            fun addDependency(dependency: Dependency): Builder {
+                this.dependencyScope.add(dependency)
+                return this
             }
-            return Builder()
+
+            fun build() = TestNG(this.dependencyScope)
         }
-
-        interface TestNgBuilder {
-
-            fun addDependency(dependency: Dependency): TestNgBuilder
-
-            fun build(): TestNG
-        }
-
     }
-
 }
