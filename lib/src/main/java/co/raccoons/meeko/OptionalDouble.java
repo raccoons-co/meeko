@@ -146,6 +146,7 @@ public class OptionalDouble {
             /**
              * @inheritDoc
              */
+            @Override
             public <X extends Throwable> double orElseThrow(Supplier<? extends X> exceptionSupplier) throws X {
                 Objects.requireNonNull(exceptionSupplier);
                 throw exceptionSupplier.get();
@@ -159,6 +160,9 @@ public class OptionalDouble {
                 return 0;
             }
 
+            /**
+             * @inheritDoc
+             */
             @Override
             public String toString() {
                 return "OptionalDouble.empty";
