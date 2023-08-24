@@ -24,29 +24,29 @@
  */
 
 /*
- * @summary Refactored java.util.OptionalInt
+ * @summary Refactored java.util.OptionalDouble
  * @author Oleksii Kucheruk
  */
 package co.raccoons.meeko;
 
 import java.util.NoSuchElementException;
 import java.util.Objects;
-import java.util.function.IntConsumer;
-import java.util.function.IntSupplier;
+import java.util.function.DoubleConsumer;
+import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
-import java.util.stream.IntStream;
+import java.util.stream.DoubleStream;
 
 /**
- * A container object which may or may not contain an {@code int} value.
+ * A container object which may or may not contain a {@code double} value.
  * If a value is present, {@code isPresent()} returns {@code true}. If no
  * value is present, the object is considered <i>empty</i> and
  * {@code isPresent()} returns {@code false}.
  *
  * <p>Additional methods that depend on the presence or absence of a contained
- * value are provided, such as {@link #orElse(int) orElse()}
+ * value are provided, such as {@link #orElse(double) orElse()}
  * (returns a default value if no value is present) and
- * {@link #ifPresent(IntConsumer) ifPresent()} (performs an
- * action if a value is present).
+ * {@link #ifPresent(DoubleConsumer) ifPresent()} (performs
+ * an action if a value is present).
  *
  * <p>This is a <a href="{@docRoot}/java.base/java/lang/doc-files/ValueBased.html">value-based</a>
  * class; programmers should treat instances that are
@@ -54,28 +54,28 @@ import java.util.stream.IntStream;
  * use instances for synchronization, or unpredictable behavior may
  * occur. For example, in a future release, synchronization may fail.
  *
- * @apiNote {@code OptionalInt} is primarily intended for use as a method return type where
+ * @apiNote {@code OptionalDouble} is primarily intended for use as a method return type where
  * there is a clear need to represent "no result." A variable whose type is
- * {@code OptionalInt} should never itself be {@code null}; it should always point
- * to an {@code OptionalInt} instance.
+ * {@code OptionalDouble} should never itself be {@code null}; it should always point
+ * to an {@code OptionalDouble} instance.
  * @since 1.8
  */
-public class OptionalInt {
+public class OptionalDouble {
 
-    private final int value;
+    private final double value;
 
     /**
-     * Returns an empty {@code OptionalInt} instance.  No value is present for
-     * this {@code OptionalInt}.
+     * Returns an empty {@code OptionalDouble} instance.  No value is present
+     * for this {@code OptionalDouble}.
      *
-     * @return an empty {@code OptionalInt}
+     * @return an empty {@code OptionalDouble}.
      * @apiNote Though it may be tempting to do so, avoid testing if an object is empty
      * by comparing with {@code ==} or {@code !=} against instances returned by
-     * {@code OptionalInt.empty()}.  There is no guarantee that it is a singleton.
+     * {@code OptionalDouble.empty()}.  There is no guarantee that it is a singleton.
      * Instead, use {@link #isEmpty()} or {@link #isPresent()}.
      */
-    public static OptionalInt empty() {
-        return new OptionalInt(0) {
+    public static OptionalDouble empty() {
+        return new OptionalDouble(Double.NaN) {
 
             /**
              * @inheritDoc
@@ -97,7 +97,7 @@ public class OptionalInt {
              * @inheritDoc
              */
             @Override
-            public int getAsInt() {
+            public double getAsDouble() {
                 throw new NoSuchElementException("No value present");
             }
 
@@ -105,7 +105,7 @@ public class OptionalInt {
              * @inheritDoc
              */
             @Override
-            public void ifPresent(IntConsumer action) {
+            public void ifPresent(DoubleConsumer action) {
                 // Intentionally empty
             }
 
@@ -113,7 +113,7 @@ public class OptionalInt {
              * @inheritDoc
              */
             @Override
-            public void ifPresentOrElse(IntConsumer action, Runnable emptyAction) {
+            public void ifPresentOrElse(DoubleConsumer action, Runnable emptyAction) {
                 Objects.requireNonNull(emptyAction);
                 emptyAction.run();
             }
@@ -122,15 +122,15 @@ public class OptionalInt {
              * @inheritDoc
              */
             @Override
-            public IntStream stream() {
-                return IntStream.empty();
+            public DoubleStream stream() {
+                return DoubleStream.empty();
             }
 
             /**
              * @inheritDoc
              */
             @Override
-            public int orElse(int other) {
+            public double orElse(double other) {
                 return other;
             }
 
@@ -138,16 +138,16 @@ public class OptionalInt {
              * @inheritDoc
              */
             @Override
-            public int orElseGet(IntSupplier supplier) {
+            public double orElseGet(DoubleSupplier supplier) {
                 Objects.requireNonNull(supplier);
-                return supplier.getAsInt();
+                return supplier.getAsDouble();
             }
 
             /**
              * @inheritDoc
              */
             @Override
-            public <X extends Throwable> int orElseThrow(Supplier<? extends X> exceptionSupplier) throws X {
+            public <X extends Throwable> double orElseThrow(Supplier<? extends X> exceptionSupplier) throws X {
                 Objects.requireNonNull(exceptionSupplier);
                 throw exceptionSupplier.get();
             }
@@ -165,7 +165,7 @@ public class OptionalInt {
              */
             @Override
             public String toString() {
-                return "OptionalInt.empty";
+                return "OptionalDouble.empty";
             }
         };
     }
@@ -173,31 +173,31 @@ public class OptionalInt {
     /**
      * Construct an instance with the described value.
      *
-     * @param value the int value to describe
+     * @param value the double value to describe.
      */
-    private OptionalInt(int value) {
+    private OptionalDouble(double value) {
         this.value = value;
     }
 
     /**
-     * Returns an {@code OptionalInt} describing the given value.
+     * Returns an {@code OptionalDouble} describing the given value.
      *
      * @param value the value to describe
-     * @return an {@code OptionalInt} with the value present
+     * @return an {@code OptionalDouble} with the value present
      */
-    public static OptionalInt of(int value) {
-        return new OptionalInt(value);
+    public static OptionalDouble of(double value) {
+        return new OptionalDouble(value);
     }
 
     /**
      * If a value is present, returns the value, otherwise throws
      * {@code NoSuchElementException}.
      *
-     * @return the value described by this {@code OptionalInt}
+     * @return the value described by this {@code OptionalDouble}
      * @throws NoSuchElementException if no value is present
      * @apiNote The preferred alternative to this method is {@link #orElseThrow()}.
      */
-    public int getAsInt() {
+    public double getAsDouble() {
         return value;
     }
 
@@ -229,7 +229,7 @@ public class OptionalInt {
      * @throws NullPointerException if value is present and the given action is
      *                              {@code null}
      */
-    public void ifPresent(IntConsumer action) {
+    public void ifPresent(DoubleConsumer action) {
         Objects.requireNonNull(action);
         action.accept(value);
     }
@@ -246,25 +246,26 @@ public class OptionalInt {
      *                              action is {@code null}.
      * @since 9
      */
-    public void ifPresentOrElse(IntConsumer action, Runnable emptyAction) {
+    public void ifPresentOrElse(DoubleConsumer action, Runnable emptyAction) {
         ifPresent(action);
     }
 
     /**
-     * If a value is present, returns a sequential {@link IntStream} containing
-     * only that value, otherwise returns an empty {@code IntStream}.
+     * If a value is present, returns a sequential {@link DoubleStream}
+     * containing only that value, otherwise returns an empty
+     * {@code DoubleStream}.
      *
-     * @return the optional value as an {@code IntStream}
-     * @apiNote This method can be used to transform a {@code Stream} of optional
-     * integers to an {@code IntStream} of present integers:
+     * @return the optional value as a {@code DoubleStream}
+     * @apiNote This method can be used to transform a {@code Stream} of optional doubles
+     * to a {@code DoubleStream} of present doubles:
      * <pre>{@code
-     *     Stream<OptionalInt> os = ..
-     *     IntStream s = os.flatMapToInt(OptionalInt::stream)
+     *     Stream<OptionalDouble> os = ..
+     *     DoubleStream s = os.flatMapToDouble(OptionalDouble::stream)
      * }</pre>
      * @since 9
      */
-    public IntStream stream() {
-        return IntStream.of(value);
+    public DoubleStream stream() {
+        return DoubleStream.of(value);
     }
 
     /**
@@ -274,8 +275,8 @@ public class OptionalInt {
      * @param other the value to be returned, if no value is present
      * @return the value, if present, otherwise {@code other}
      */
-    public int orElse(int other) {
-        return getAsInt();
+    public double orElse(double other) {
+        return getAsDouble();
     }
 
     /**
@@ -288,20 +289,20 @@ public class OptionalInt {
      * @throws NullPointerException if no value is present and the supplying
      *                              function is {@code null}
      */
-    public int orElseGet(IntSupplier supplier) {
-        return getAsInt();
+    public double orElseGet(DoubleSupplier supplier) {
+        return getAsDouble();
     }
 
     /**
      * If a value is present, returns the value, otherwise throws
      * {@code NoSuchElementException}.
      *
-     * @return the value described by this {@code OptionalInt}
+     * @return the value described by this {@code OptionalDouble}
      * @throws NoSuchElementException if no value is present
      * @since 10
      */
-    public int orElseThrow() {
-        return getAsInt();
+    public double orElseThrow() {
+        return getAsDouble();
     }
 
     /**
@@ -319,17 +320,18 @@ public class OptionalInt {
      * list can be used as the supplier. For example,
      * {@code IllegalStateException::new}
      */
-    public <X extends Throwable> int orElseThrow(Supplier<? extends X> exceptionSupplier) throws X {
-        return getAsInt();
+    public <X extends Throwable> double orElseThrow(Supplier<? extends X> exceptionSupplier) throws X {
+        return getAsDouble();
     }
 
     /**
      * Indicates whether some other object is "equal to" this
-     * {@code OptionalInt}.  The other object is considered equal if:
+     * {@code OptionalDouble}. The other object is considered equal if:
      * <ul>
-     * <li>it is also an {@code OptionalInt} and;
+     * <li>it is also an {@code OptionalDouble} and;
      * <li>both instances have no value present or;
-     * <li>the present values are "equal to" each other via {@code ==}.
+     * <li>the present values are "equal to" each other via
+     * {@code Double.compare() == 0}.
      * </ul>
      *
      * @param obj an object to be tested for equality
@@ -342,8 +344,8 @@ public class OptionalInt {
             return true;
         }
 
-        return obj instanceof OptionalInt other
-                && Objects.equals(value, other.value);
+        return obj instanceof OptionalDouble other
+                && (Double.compare(value, other.value) == 0);
     }
 
     /**
@@ -355,21 +357,21 @@ public class OptionalInt {
      */
     @Override
     public int hashCode() {
-        return Integer.hashCode(value);
+        return Double.hashCode(value);
     }
 
     /**
-     * Returns a non-empty string representation of this {@code OptionalInt}
+     * Returns a non-empty string representation of this {@code OptionalDouble}
      * suitable for debugging.  The exact presentation format is unspecified and
      * may vary between implementations and versions.
      *
      * @return the string representation of this instance
      * @implSpec If a value is present the result must include its string representation
-     * in the result.  Empty and present {@code OptionalInt}s must be
+     * in the result.  Empty and present {@code OptionalDouble}s must be
      * unambiguously differentiable.
      */
     @Override
     public String toString() {
-        return ("OptionalInt[" + value + "]");
+        return ("OptionalDouble[" + value + "]");
     }
 }

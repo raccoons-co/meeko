@@ -23,10 +23,10 @@
 
 /* @test
  * @bug 8195649
- * @summary Basic functional test of OptionalInt
+ * @summary Basic functional test of OptionalLong
  * @author Mike Duigou
  * @build ObscureException
- * @run testng OptionalIntTest
+ * @run testng OptionalLongTest
  */
 package co.raccoons.meeko;
 
@@ -40,19 +40,18 @@ import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertThrows;
 import static org.testng.Assert.assertTrue;
 
-public class OptionalIntTest {
-
-    static final int INTVAL = 33_550_336;
-    static final int UNEXPECTED = 0xCAFEBABE;
+public class OptionalLongTest {
+    static final long LONGVAL = 2_305_843_008_139_952_128L;
+    static final long UNEXPECTED = 0xFEEDBEEFCAFEBABEL;
 
     /**
-     * Checks a block of assertions over an empty OptionalInt.
+     * Checks a block of assertions over an empty OptionalLong.
      */
-    void checkEmpty(OptionalInt empty) {
-        assertTrue(empty.equals(OptionalInt.empty()));
-        assertTrue(OptionalInt.empty().equals(empty));
-        assertFalse(empty.equals(OptionalInt.of(UNEXPECTED)));
-        assertFalse(OptionalInt.of(UNEXPECTED).equals(empty));
+    void checkEmpty(OptionalLong empty) {
+        assertTrue(empty.equals(OptionalLong.empty()));
+        assertTrue(OptionalLong.empty().equals(empty));
+        assertFalse(empty.equals(OptionalLong.of(UNEXPECTED)));
+        assertFalse(OptionalLong.of(UNEXPECTED).equals(empty));
         assertFalse(empty.equals("unexpected"));
 
         assertFalse(empty.isPresent());
@@ -61,7 +60,7 @@ public class OptionalIntTest {
         assertEquals(empty.orElse(UNEXPECTED), UNEXPECTED);
         assertEquals(empty.orElseGet(() -> UNEXPECTED), UNEXPECTED);
 
-        assertThrows(NoSuchElementException.class, () -> empty.getAsInt());
+        assertThrows(NoSuchElementException.class, () -> empty.getAsLong());
         assertThrows(NoSuchElementException.class, () -> empty.orElseThrow());
         assertThrows(ObscureException.class, () -> empty.orElseThrow(ObscureException::new));
 
@@ -76,29 +75,29 @@ public class OptionalIntTest {
         assertTrue(b2.get());
 
         assertTrue(empty.equals(empty));
-        assertEquals(empty.toString(), "OptionalInt.empty");
+        assertEquals(empty.toString(), "OptionalLong.empty");
     }
 
     /**
-     * Checks a block of assertions over an OptionalInt that is expected to
+     * Checks a block of assertions over an OptionalLong that is expected to
      * have a particular value present.
      */
-    void checkPresent(OptionalInt opt, int expected) {
-        assertFalse(opt.equals(OptionalInt.empty()));
-        assertFalse(OptionalInt.empty().equals(opt));
-        assertTrue(opt.equals(OptionalInt.of(expected)));
-        assertTrue(OptionalInt.of(expected).equals(opt));
-        assertFalse(opt.equals(OptionalInt.of(UNEXPECTED)));
-        assertFalse(OptionalInt.of(UNEXPECTED).equals(opt));
+    void checkPresent(OptionalLong opt, long expected) {
+        assertFalse(opt.equals(OptionalLong.empty()));
+        assertFalse(OptionalLong.empty().equals(opt));
+        assertTrue(opt.equals(OptionalLong.of(expected)));
+        assertTrue(OptionalLong.of(expected).equals(opt));
+        assertFalse(opt.equals(OptionalLong.of(UNEXPECTED)));
+        assertFalse(OptionalLong.of(UNEXPECTED).equals(opt));
         assertFalse(opt.equals("unexpected"));
 
         assertTrue(opt.isPresent());
         assertFalse(opt.isEmpty());
-        assertEquals(opt.hashCode(), Integer.hashCode(expected));
+        assertEquals(opt.hashCode(), Long.hashCode(expected));
         assertEquals(opt.orElse(UNEXPECTED), expected);
         assertEquals(opt.orElseGet(() -> UNEXPECTED), expected);
 
-        assertEquals(opt.getAsInt(), expected);
+        assertEquals(opt.getAsLong(), expected);
         assertEquals(opt.orElseThrow(), expected);
         assertEquals(opt.orElseThrow(ObscureException::new), expected);
 
@@ -113,26 +112,26 @@ public class OptionalIntTest {
         assertFalse(b2.get());
 
         assertTrue(opt.equals(opt));
-        assertEquals(opt.toString(), "OptionalInt[" + expected + "]");
+        assertEquals(opt.toString(), "OptionalLong[" + expected + "]");
     }
 
     @Test(groups = "unit")
     public void testEmpty() {
-        checkEmpty(OptionalInt.empty());
+        checkEmpty(OptionalLong.empty());
     }
 
     @Test(groups = "unit")
     public void testPresent() {
-        checkPresent(OptionalInt.of(INTVAL), INTVAL);
+        checkPresent(OptionalLong.of(LONGVAL), LONGVAL);
     }
 
     @Test(groups = "unit")
     public void testStreamEmpty() {
-        assertEquals(OptionalInt.empty().stream().toArray(), new int[]{});
+        assertEquals(OptionalLong.empty().stream().toArray(), new long[]{});
     }
 
     @Test(groups = "unit")
     public void testStreamPresent() {
-        assertEquals(OptionalInt.of(INTVAL).stream().toArray(), new int[]{INTVAL});
+        assertEquals(OptionalLong.of(LONGVAL).stream().toArray(), new long[]{LONGVAL});
     }
 }

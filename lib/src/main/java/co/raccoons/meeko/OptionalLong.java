@@ -24,28 +24,28 @@
  */
 
 /*
- * @summary Refactored java.util.OptionalInt
+ * @summary Refactored java.util.OptionalLong
  * @author Oleksii Kucheruk
  */
 package co.raccoons.meeko;
 
 import java.util.NoSuchElementException;
 import java.util.Objects;
-import java.util.function.IntConsumer;
-import java.util.function.IntSupplier;
+import java.util.function.LongConsumer;
+import java.util.function.LongSupplier;
 import java.util.function.Supplier;
-import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 
 /**
- * A container object which may or may not contain an {@code int} value.
+ * A container object which may or may not contain a {@code long} value.
  * If a value is present, {@code isPresent()} returns {@code true}. If no
  * value is present, the object is considered <i>empty</i> and
  * {@code isPresent()} returns {@code false}.
  *
  * <p>Additional methods that depend on the presence or absence of a contained
- * value are provided, such as {@link #orElse(int) orElse()}
+ * value are provided, such as {@link #orElse(long) orElse()}
  * (returns a default value if no value is present) and
- * {@link #ifPresent(IntConsumer) ifPresent()} (performs an
+ * {@link #ifPresent(LongConsumer) ifPresent()} (performs an
  * action if a value is present).
  *
  * <p>This is a <a href="{@docRoot}/java.base/java/lang/doc-files/ValueBased.html">value-based</a>
@@ -54,28 +54,28 @@ import java.util.stream.IntStream;
  * use instances for synchronization, or unpredictable behavior may
  * occur. For example, in a future release, synchronization may fail.
  *
- * @apiNote {@code OptionalInt} is primarily intended for use as a method return type where
+ * @apiNote {@code OptionalLong} is primarily intended for use as a method return type where
  * there is a clear need to represent "no result." A variable whose type is
- * {@code OptionalInt} should never itself be {@code null}; it should always point
- * to an {@code OptionalInt} instance.
+ * {@code OptionalLong} should never itself be {@code null}; it should always point
+ * to an {@code OptionalLong} instance.
  * @since 1.8
  */
-public class OptionalInt {
+public class OptionalLong {
 
-    private final int value;
+    private final long value;
 
     /**
-     * Returns an empty {@code OptionalInt} instance.  No value is present for
-     * this {@code OptionalInt}.
+     * Returns an empty {@code OptionalLong} instance.  No value is present for
+     * this {@code OptionalLong}.
      *
-     * @return an empty {@code OptionalInt}
+     * @return an empty {@code OptionalLong}.
      * @apiNote Though it may be tempting to do so, avoid testing if an object is empty
      * by comparing with {@code ==} or {@code !=} against instances returned by
-     * {@code OptionalInt.empty()}.  There is no guarantee that it is a singleton.
+     * {@code OptionalLong.empty()}.  There is no guarantee that it is a singleton.
      * Instead, use {@link #isEmpty()} or {@link #isPresent()}.
      */
-    public static OptionalInt empty() {
-        return new OptionalInt(0) {
+    public static OptionalLong empty() {
+        return new OptionalLong(0) {
 
             /**
              * @inheritDoc
@@ -97,7 +97,7 @@ public class OptionalInt {
              * @inheritDoc
              */
             @Override
-            public int getAsInt() {
+            public long getAsLong() {
                 throw new NoSuchElementException("No value present");
             }
 
@@ -105,7 +105,7 @@ public class OptionalInt {
              * @inheritDoc
              */
             @Override
-            public void ifPresent(IntConsumer action) {
+            public void ifPresent(LongConsumer action) {
                 // Intentionally empty
             }
 
@@ -113,7 +113,7 @@ public class OptionalInt {
              * @inheritDoc
              */
             @Override
-            public void ifPresentOrElse(IntConsumer action, Runnable emptyAction) {
+            public void ifPresentOrElse(LongConsumer action, Runnable emptyAction) {
                 Objects.requireNonNull(emptyAction);
                 emptyAction.run();
             }
@@ -122,15 +122,15 @@ public class OptionalInt {
              * @inheritDoc
              */
             @Override
-            public IntStream stream() {
-                return IntStream.empty();
+            public LongStream stream() {
+                return LongStream.empty();
             }
 
             /**
              * @inheritDoc
              */
             @Override
-            public int orElse(int other) {
+            public long orElse(long other) {
                 return other;
             }
 
@@ -138,16 +138,16 @@ public class OptionalInt {
              * @inheritDoc
              */
             @Override
-            public int orElseGet(IntSupplier supplier) {
+            public long orElseGet(LongSupplier supplier) {
                 Objects.requireNonNull(supplier);
-                return supplier.getAsInt();
+                return supplier.getAsLong();
             }
 
             /**
              * @inheritDoc
              */
             @Override
-            public <X extends Throwable> int orElseThrow(Supplier<? extends X> exceptionSupplier) throws X {
+            public <X extends Throwable> long orElseThrow(Supplier<? extends X> exceptionSupplier) throws X {
                 Objects.requireNonNull(exceptionSupplier);
                 throw exceptionSupplier.get();
             }
@@ -165,7 +165,7 @@ public class OptionalInt {
              */
             @Override
             public String toString() {
-                return "OptionalInt.empty";
+                return "OptionalLong.empty";
             }
         };
     }
@@ -173,31 +173,31 @@ public class OptionalInt {
     /**
      * Construct an instance with the described value.
      *
-     * @param value the int value to describe
+     * @param value the long value to describe
      */
-    private OptionalInt(int value) {
+    private OptionalLong(long value) {
         this.value = value;
     }
 
     /**
-     * Returns an {@code OptionalInt} describing the given value.
+     * Returns an {@code OptionalLong} describing the given value.
      *
      * @param value the value to describe
-     * @return an {@code OptionalInt} with the value present
+     * @return an {@code OptionalLong} with the value present
      */
-    public static OptionalInt of(int value) {
-        return new OptionalInt(value);
+    public static OptionalLong of(long value) {
+        return new OptionalLong(value);
     }
 
     /**
      * If a value is present, returns the value, otherwise throws
      * {@code NoSuchElementException}.
      *
-     * @return the value described by this {@code OptionalInt}
+     * @return the value described by this {@code OptionalLong}
      * @throws NoSuchElementException if no value is present
      * @apiNote The preferred alternative to this method is {@link #orElseThrow()}.
      */
-    public int getAsInt() {
+    public long getAsLong() {
         return value;
     }
 
@@ -229,7 +229,7 @@ public class OptionalInt {
      * @throws NullPointerException if value is present and the given action is
      *                              {@code null}
      */
-    public void ifPresent(IntConsumer action) {
+    public void ifPresent(LongConsumer action) {
         Objects.requireNonNull(action);
         action.accept(value);
     }
@@ -246,25 +246,25 @@ public class OptionalInt {
      *                              action is {@code null}.
      * @since 9
      */
-    public void ifPresentOrElse(IntConsumer action, Runnable emptyAction) {
+    public void ifPresentOrElse(LongConsumer action, Runnable emptyAction) {
         ifPresent(action);
     }
 
     /**
-     * If a value is present, returns a sequential {@link IntStream} containing
-     * only that value, otherwise returns an empty {@code IntStream}.
+     * If a value is present, returns a sequential {@link LongStream} containing
+     * only that value, otherwise returns an empty {@code LongStream}.
      *
-     * @return the optional value as an {@code IntStream}
-     * @apiNote This method can be used to transform a {@code Stream} of optional
-     * integers to an {@code IntStream} of present integers:
+     * @return the optional value as an {@code LongStream}
+     * @apiNote This method can be used to transform a {@code Stream} of optional longs
+     * to an {@code LongStream} of present longs:
      * <pre>{@code
-     *     Stream<OptionalInt> os = ..
-     *     IntStream s = os.flatMapToInt(OptionalInt::stream)
+     *     Stream<OptionalLong> os = ..
+     *     LongStream s = os.flatMapToLong(OptionalLong::stream)
      * }</pre>
      * @since 9
      */
-    public IntStream stream() {
-        return IntStream.of(value);
+    public LongStream stream() {
+        return LongStream.of(value);
     }
 
     /**
@@ -274,8 +274,8 @@ public class OptionalInt {
      * @param other the value to be returned, if no value is present
      * @return the value, if present, otherwise {@code other}
      */
-    public int orElse(int other) {
-        return getAsInt();
+    public long orElse(long other) {
+        return getAsLong();
     }
 
     /**
@@ -288,20 +288,20 @@ public class OptionalInt {
      * @throws NullPointerException if no value is present and the supplying
      *                              function is {@code null}
      */
-    public int orElseGet(IntSupplier supplier) {
-        return getAsInt();
+    public long orElseGet(LongSupplier supplier) {
+        return getAsLong();
     }
 
     /**
      * If a value is present, returns the value, otherwise throws
      * {@code NoSuchElementException}.
      *
-     * @return the value described by this {@code OptionalInt}
+     * @return the value described by this {@code OptionalLong}
      * @throws NoSuchElementException if no value is present
      * @since 10
      */
-    public int orElseThrow() {
-        return getAsInt();
+    public long orElseThrow() {
+        return getAsLong();
     }
 
     /**
@@ -319,15 +319,15 @@ public class OptionalInt {
      * list can be used as the supplier. For example,
      * {@code IllegalStateException::new}
      */
-    public <X extends Throwable> int orElseThrow(Supplier<? extends X> exceptionSupplier) throws X {
-        return getAsInt();
+    public <X extends Throwable> long orElseThrow(Supplier<? extends X> exceptionSupplier) throws X {
+        return getAsLong();
     }
 
     /**
      * Indicates whether some other object is "equal to" this
-     * {@code OptionalInt}.  The other object is considered equal if:
+     * {@code OptionalLong}.  The other object is considered equal if:
      * <ul>
-     * <li>it is also an {@code OptionalInt} and;
+     * <li>it is also an {@code OptionalLong} and;
      * <li>both instances have no value present or;
      * <li>the present values are "equal to" each other via {@code ==}.
      * </ul>
@@ -342,8 +342,8 @@ public class OptionalInt {
             return true;
         }
 
-        return obj instanceof OptionalInt other
-                && Objects.equals(value, other.value);
+        return obj instanceof OptionalLong other
+                && (value == other.value);
     }
 
     /**
@@ -355,21 +355,21 @@ public class OptionalInt {
      */
     @Override
     public int hashCode() {
-        return Integer.hashCode(value);
+        return Long.hashCode(value);
     }
 
     /**
-     * Returns a non-empty string representation of this {@code OptionalInt}
+     * Returns a non-empty string representation of this {@code OptionalLong}
      * suitable for debugging.  The exact presentation format is unspecified and
      * may vary between implementations and versions.
      *
      * @return the string representation of this instance
      * @implSpec If a value is present the result must include its string representation
-     * in the result.  Empty and present {@code OptionalInt}s must be
+     * in the result.  Empty and present {@code OptionalLong}s must be
      * unambiguously differentiable.
      */
     @Override
     public String toString() {
-        return ("OptionalInt[" + value + "]");
+        return ("OptionalLong[" + value + "]");
     }
 }

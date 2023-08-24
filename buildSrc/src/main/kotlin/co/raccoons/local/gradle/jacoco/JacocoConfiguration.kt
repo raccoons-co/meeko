@@ -2,6 +2,7 @@ package co.raccoons.local.gradle.jacoco
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.tasks.testing.Test
 import org.gradle.testing.jacoco.tasks.JacocoReport
 
 private const val JACOCO_PLUGIN_ID = "jacoco"
@@ -20,13 +21,17 @@ class JacocoConfiguration private constructor(private val reportFormats: List<Ja
 
     private fun enableReports(project: Project) {
         project.tasks
-            .withType(JacocoReport::class.java)
-            .configureEach { jacocoReport ->
-                jacocoReport.dependsOn("test")
+            .withType(JacocoReport::class.java) { jacocoReport ->
+                jacocoReport.dependsOn(project.tasks.withType(Test::class.java))
 
                 for (format in this.reportFormats) {
                     format.subscribeTo(jacocoReport.reports)
                 }
+            }
+
+        project.tasks
+            .withType(Test::class.java) { test ->
+                test.finalizedBy(project.tasks.withType(JacocoReport::class.java))
             }
     }
 

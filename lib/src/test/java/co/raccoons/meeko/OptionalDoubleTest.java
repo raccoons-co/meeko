@@ -23,10 +23,10 @@
 
 /* @test
  * @bug 8195649
- * @summary Basic functional test of OptionalInt
+ * @summary Basic functional test of OptionalDouble
  * @author Mike Duigou
  * @build ObscureException
- * @run testng OptionalIntTest
+ * @run testng BasicDouble
  */
 package co.raccoons.meeko;
 
@@ -40,19 +40,18 @@ import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertThrows;
 import static org.testng.Assert.assertTrue;
 
-public class OptionalIntTest {
-
-    static final int INTVAL = 33_550_336;
-    static final int UNEXPECTED = 0xCAFEBABE;
+public class OptionalDoubleTest {
+    static final double DOUBLEVAL = Math.PI;
+    static final double UNEXPECTED = 6.62607004E-34;
 
     /**
-     * Checks a block of assertions over an empty OptionalInt.
+     * Checks a block of assertions over an empty OptionalDouble.
      */
-    void checkEmpty(OptionalInt empty) {
-        assertTrue(empty.equals(OptionalInt.empty()));
-        assertTrue(OptionalInt.empty().equals(empty));
-        assertFalse(empty.equals(OptionalInt.of(UNEXPECTED)));
-        assertFalse(OptionalInt.of(UNEXPECTED).equals(empty));
+    void checkEmpty(OptionalDouble empty) {
+        assertTrue(empty.equals(OptionalDouble.empty()));
+        assertTrue(OptionalDouble.empty().equals(empty));
+        assertFalse(empty.equals(OptionalDouble.of(UNEXPECTED)));
+        assertFalse(OptionalDouble.of(UNEXPECTED).equals(empty));
         assertFalse(empty.equals("unexpected"));
 
         assertFalse(empty.isPresent());
@@ -61,7 +60,7 @@ public class OptionalIntTest {
         assertEquals(empty.orElse(UNEXPECTED), UNEXPECTED);
         assertEquals(empty.orElseGet(() -> UNEXPECTED), UNEXPECTED);
 
-        assertThrows(NoSuchElementException.class, () -> empty.getAsInt());
+        assertThrows(NoSuchElementException.class, () -> empty.getAsDouble());
         assertThrows(NoSuchElementException.class, () -> empty.orElseThrow());
         assertThrows(ObscureException.class, () -> empty.orElseThrow(ObscureException::new));
 
@@ -76,29 +75,29 @@ public class OptionalIntTest {
         assertTrue(b2.get());
 
         assertTrue(empty.equals(empty));
-        assertEquals(empty.toString(), "OptionalInt.empty");
+        assertEquals(empty.toString(), "OptionalDouble.empty");
     }
 
     /**
-     * Checks a block of assertions over an OptionalInt that is expected to
+     * Checks a block of assertions over an OptionalDouble that is expected to
      * have a particular value present.
      */
-    void checkPresent(OptionalInt opt, int expected) {
-        assertFalse(opt.equals(OptionalInt.empty()));
-        assertFalse(OptionalInt.empty().equals(opt));
-        assertTrue(opt.equals(OptionalInt.of(expected)));
-        assertTrue(OptionalInt.of(expected).equals(opt));
-        assertFalse(opt.equals(OptionalInt.of(UNEXPECTED)));
-        assertFalse(OptionalInt.of(UNEXPECTED).equals(opt));
+    void checkPresent(OptionalDouble opt, double expected) {
+        assertFalse(opt.equals(OptionalDouble.empty()));
+        assertFalse(OptionalDouble.empty().equals(opt));
+        assertTrue(opt.equals(OptionalDouble.of(expected)));
+        assertTrue(OptionalDouble.of(expected).equals(opt));
+        assertFalse(opt.equals(OptionalDouble.of(UNEXPECTED)));
+        assertFalse(OptionalDouble.of(UNEXPECTED).equals(opt));
         assertFalse(opt.equals("unexpected"));
 
         assertTrue(opt.isPresent());
         assertFalse(opt.isEmpty());
-        assertEquals(opt.hashCode(), Integer.hashCode(expected));
+        assertEquals(opt.hashCode(), Double.hashCode(expected));
         assertEquals(opt.orElse(UNEXPECTED), expected);
         assertEquals(opt.orElseGet(() -> UNEXPECTED), expected);
 
-        assertEquals(opt.getAsInt(), expected);
+        assertEquals(opt.getAsDouble(), expected);
         assertEquals(opt.orElseThrow(), expected);
         assertEquals(opt.orElseThrow(ObscureException::new), expected);
 
@@ -113,26 +112,26 @@ public class OptionalIntTest {
         assertFalse(b2.get());
 
         assertTrue(opt.equals(opt));
-        assertEquals(opt.toString(), "OptionalInt[" + expected + "]");
+        assertEquals(opt.toString(), "OptionalDouble[" + expected + "]");
     }
 
     @Test(groups = "unit")
     public void testEmpty() {
-        checkEmpty(OptionalInt.empty());
+        checkEmpty(OptionalDouble.empty());
     }
 
     @Test(groups = "unit")
     public void testPresent() {
-        checkPresent(OptionalInt.of(INTVAL), INTVAL);
+        checkPresent(OptionalDouble.of(DOUBLEVAL), DOUBLEVAL);
     }
 
     @Test(groups = "unit")
     public void testStreamEmpty() {
-        assertEquals(OptionalInt.empty().stream().toArray(), new int[]{});
+        assertEquals(OptionalDouble.empty().stream().toArray(), new double[]{});
     }
 
     @Test(groups = "unit")
     public void testStreamPresent() {
-        assertEquals(OptionalInt.of(INTVAL).stream().toArray(), new int[]{INTVAL});
+        assertEquals(OptionalDouble.of(DOUBLEVAL).stream().toArray(), new double[]{DOUBLEVAL});
     }
 }
