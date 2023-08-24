@@ -33,7 +33,6 @@ package co.raccoons.meeko;
 import org.testng.annotations.Test;
 
 import java.util.NoSuchElementException;
-import java.util.OptionalLong;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.testng.Assert.assertEquals;
