@@ -22,7 +22,7 @@ class JacocoConfiguration private constructor(private val reportFormats: List<Ja
     private fun enableReports(project: Project) {
         project.tasks
             .withType(JacocoReport::class.java) { jacocoReport ->
-                jacocoReport.dependsOn("test")
+                jacocoReport.dependsOn(project.tasks.withType(Test::class.java))
 
                 for (format in this.reportFormats) {
                     format.subscribeTo(jacocoReport.reports)
