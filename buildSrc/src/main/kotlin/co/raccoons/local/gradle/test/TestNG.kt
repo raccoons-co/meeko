@@ -6,7 +6,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.testing.Test
 
-class TestNG(private val dependencyScope: DependencyScope) : Plugin<Project> {
+class TestNG private constructor(private val dependencyScope: DependencyScope) : Plugin<Project> {
 
     override fun apply(project: Project) {
         this.setupPlugin(project)
@@ -22,15 +22,29 @@ class TestNG(private val dependencyScope: DependencyScope) : Plugin<Project> {
             }
     }
 
-    class Builder {
+    companion object {
+        fun newBuilder(): TestNgBuilder {
+            class Builder : TestNgBuilder {
 
-        private val dependencyScope = DependencyScope()
+                private val dependencyScope = DependencyScope()
 
-        fun addDependency(dependency: Dependency): Builder {
-            this.dependencyScope.add(dependency)
-            return this
+                override fun addDependency(dependency: Dependency): Builder {
+                    this.dependencyScope.add(dependency)
+                    return this
+                }
+
+                override fun build() = TestNG(this.dependencyScope)
+            }
+            return Builder()
         }
 
-        fun build() = TestNG(this.dependencyScope)
+        interface TestNgBuilder {
+
+            fun addDependency(dependency: Dependency): TestNgBuilder
+
+            fun build(): TestNG
+        }
+
     }
+
 }

@@ -6,7 +6,8 @@ import org.gradle.testing.jacoco.tasks.JacocoReport
 
 private const val JACOCO_PLUGIN_ID = "jacoco"
 
-class JacocoConfiguration(private val reportFormats: List<JacocoReportFormat>) : Plugin<Project> {
+class JacocoConfiguration private constructor(private val reportFormats: List<JacocoReportFormat>) :
+    Plugin<Project> {
 
     override fun apply(project: Project) {
         this.setupPlugin(project)
@@ -29,15 +30,22 @@ class JacocoConfiguration(private val reportFormats: List<JacocoReportFormat>) :
             }
     }
 
-    class Builder {
+    companion object {
+        /**
+         * Returns new JacocoConfigurationBuilder instance.
+         */
+        fun newBuilder() = Builder()
 
-        private val enabledFormats = mutableListOf<JacocoReportFormat>()
+        class Builder {
 
-        fun enable(reportFormat: JacocoReportFormat): Builder {
-            this.enabledFormats.add(reportFormat)
-            return this
+            private val enabledFormats = mutableListOf<JacocoReportFormat>()
+
+            fun enable(reportFormat: JacocoReportFormat): Builder {
+                this.enabledFormats.add(reportFormat)
+                return this
+            }
+
+            fun build() = JacocoConfiguration(this.enabledFormats)
         }
-
-        fun build() = JacocoConfiguration(this.enabledFormats)
     }
 }

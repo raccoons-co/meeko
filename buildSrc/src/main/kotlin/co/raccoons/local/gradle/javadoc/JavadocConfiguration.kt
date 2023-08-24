@@ -5,7 +5,7 @@ import org.gradle.api.Project
 import org.gradle.api.tasks.javadoc.Javadoc
 import org.gradle.external.javadoc.StandardJavadocDocletOptions
 
-class JavadocConfiguration(private val tags: List<String>) : Plugin<Project> {
+class JavadocConfiguration private constructor(private val tags: List<String>) : Plugin<Project> {
 
     override fun apply(project: Project) {
         this.setupPlugin(project)
@@ -19,15 +19,20 @@ class JavadocConfiguration(private val tags: List<String>) : Plugin<Project> {
             }
     }
 
-    class Builder {
+    companion object {
 
-        private val tags = mutableListOf<String>()
+        fun newBuilder() = Builder()
 
-        fun addTag(tag: JavadocTag): Builder {
-            this.tags.add(tag.toString())
-            return this
+        class Builder {
+
+            private val tags = mutableListOf<String>()
+
+            fun addTag(tag: JavadocTag): Builder {
+                this.tags.add(tag.toString())
+                return this
+            }
+
+            fun build() = JavadocConfiguration(this.tags.toList())
         }
-
-        fun build() = JavadocConfiguration(this.tags.toList())
     }
 }

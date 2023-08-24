@@ -20,8 +20,9 @@ class CheckstyleConfiguration(
 
     private fun setupPlugin(project: Project) {
         project.plugins.apply(CHECKSTYLE_PLUGIN_ID)
-        val checkstyleExtension = project.extensions.getByType(CheckstyleExtension::class.java)
-        checkstyleExtension.toolVersion = this.toolVersion
+        project.extensions
+            .getByType(CheckstyleExtension::class.java)
+            .toolVersion = this.toolVersion
     }
 
     private fun enableReports(project: Project) {
@@ -34,21 +35,26 @@ class CheckstyleConfiguration(
             }
     }
 
-    class Builder {
+    companion object {
 
-        private var toolVersion = Presets.CHECKSTYLE.version()
-        private val enabledFormats = mutableListOf<CheckstyleReportFormat>()
+        fun newBuilder() = Builder()
 
-        fun setVersion(version: String): Builder {
-            this.toolVersion = version
-            return this
+        class Builder {
+
+            private var toolVersion = Presets.CHECKSTYLE.version()
+            private val enabledFormats = mutableListOf<CheckstyleReportFormat>()
+
+            fun setVersion(version: String): Builder {
+                this.toolVersion = version
+                return this
+            }
+
+            fun enable(reportFormat: CheckstyleReportFormat): Builder {
+                this.enabledFormats.add(reportFormat)
+                return this
+            }
+
+            fun build() = CheckstyleConfiguration(this.toolVersion, this.enabledFormats)
         }
-
-        fun enable(reportFormat: CheckstyleReportFormat): Builder {
-            this.enabledFormats.add(reportFormat)
-            return this
-        }
-
-        fun build() = CheckstyleConfiguration(this.toolVersion, this.enabledFormats)
     }
 }
