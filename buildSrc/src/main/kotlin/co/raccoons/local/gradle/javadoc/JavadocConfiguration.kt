@@ -5,34 +5,36 @@ import org.gradle.api.Project
 import org.gradle.api.tasks.javadoc.Javadoc
 import org.gradle.external.javadoc.StandardJavadocDocletOptions
 
+/**
+ * Javadoc plugin configuration.
+ */
 class JavadocConfiguration private constructor(private val tags: List<String>) : Plugin<Project> {
-
-    override fun apply(project: Project) {
-        this.setupPlugin(project)
-    }
-
-    private fun setupPlugin(project: Project) {
-        project.tasks
-            .withType(Javadoc::class.java)
-            .configureEach { javadoc ->
-                (javadoc.options as StandardJavadocDocletOptions).tags(tags)
-            }
-    }
 
     companion object {
 
+        /** Returns new plugin configuration builder. */
         fun newBuilder() = Builder()
 
+        /** The configuration builder */
         class Builder {
 
             private val tags = mutableListOf<String>()
 
             fun addTag(tag: JavadocTag): Builder {
-                this.tags.add(tag.toString())
+                tags.add(tag.toString())
                 return this
             }
 
-            fun build() = JavadocConfiguration(this.tags.toList())
+            fun build() = JavadocConfiguration(tags.toList())
         }
+    }
+
+    /** @inheritDoc */
+    override fun apply(project: Project) {
+        project.tasks
+            .withType(Javadoc::class.java)
+            .configureEach { javadoc ->
+                (javadoc.options as StandardJavadocDocletOptions).tags(tags)
+            }
     }
 }

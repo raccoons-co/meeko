@@ -5,14 +5,41 @@ import org.gradle.api.Project
 import org.gradle.api.tasks.testing.Test
 import org.gradle.testing.jacoco.tasks.JacocoReport
 
-private const val JACOCO_PLUGIN_ID = "jacoco"
+/**
+ * Jacoco plugin configuration.
+ */
+class JacocoConfiguration private constructor(
+    private val reportFormats: List<JacocoReportFormat>
+) : Plugin<Project> {
 
-class JacocoConfiguration private constructor(private val reportFormats: List<JacocoReportFormat>) :
-    Plugin<Project> {
+    companion object {
 
+        private const val JACOCO_PLUGIN_ID = "jacoco"
+
+        /** Returns new plugin configuration builder. */
+        fun newBuilder() = Builder()
+
+        /** The configuration builder */
+        class Builder {
+
+            private val enabledFormats = mutableListOf<JacocoReportFormat>()
+
+            /** Enables Jacoco report format. */
+            fun enable(reportFormat: JacocoReportFormat): Builder {
+                this.enabledFormats.add(reportFormat)
+                return this
+            }
+
+            /** Returns new Jacoco plugin configuration. */
+            fun build() = JacocoConfiguration(this.enabledFormats)
+        }
+    }
+
+    /** @inheritDoc */
     override fun apply(project: Project) {
         this.setupPlugin(project)
         this.enableReports(project)
+        this.addTaskFinalizer(project)
     }
 
     private fun setupPlugin(project: Project) {
@@ -28,29 +55,12 @@ class JacocoConfiguration private constructor(private val reportFormats: List<Ja
                     format.subscribeTo(jacocoReport.reports)
                 }
             }
+    }
 
+    private fun addTaskFinalizer(project: Project) {
         project.tasks
             .withType(Test::class.java) { test ->
                 test.finalizedBy(project.tasks.withType(JacocoReport::class.java))
             }
-    }
-
-    companion object {
-        /**
-         * Returns new JacocoConfigurationBuilder instance.
-         */
-        fun newBuilder() = Builder()
-
-        class Builder {
-
-            private val enabledFormats = mutableListOf<JacocoReportFormat>()
-
-            fun enable(reportFormat: JacocoReportFormat): Builder {
-                this.enabledFormats.add(reportFormat)
-                return this
-            }
-
-            fun build() = JacocoConfiguration(this.enabledFormats)
-        }
     }
 }

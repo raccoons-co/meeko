@@ -30,6 +30,7 @@
  */
 package co.raccoons.meeko;
 
+import co.raccoons.meeko.util.OptionalDouble;
 import org.testng.annotations.Test;
 
 import java.util.NoSuchElementException;

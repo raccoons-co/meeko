@@ -6,7 +6,7 @@
 
 package co.raccoons.local.gradle.java
 
-class DependencyNotation(
+data class DependencyNotation(
     private val group: String,
     private val name: String,
     private val version: String

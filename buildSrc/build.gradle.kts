@@ -12,7 +12,7 @@ repositories {
 dependencies {
     implementation(kotlin("stdlib"))
     implementation(gradleApi())
-    implementation("com.google.protobuf:protobuf-java:3.24.1")
+    implementation("com.google.protobuf:protobuf-javalite:3.24.2")
 }
 
 kotlin {
@@ -21,6 +21,16 @@ kotlin {
 
 protobuf {
     protoc {
-        artifact = "com.google.protobuf:protoc:3.24.1"
+        artifact = "com.google.protobuf:protoc:3.24.2"
+    }
+
+    generateProtoTasks {
+        ofSourceSet("main").forEach { task ->
+            task.builtins {
+                getByName("java") {
+                    option("lite")
+                }
+            }
+        }
     }
 }

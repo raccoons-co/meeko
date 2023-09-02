@@ -5,6 +5,6 @@
  */
 
 /**
- * Meeko package
+ * Meeko Java utilities.
  */
-package co.raccoons.meeko;
+package co.raccoons.meeko.util;
