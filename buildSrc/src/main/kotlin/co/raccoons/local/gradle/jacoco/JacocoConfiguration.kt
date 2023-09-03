@@ -55,6 +55,11 @@ class JacocoConfiguration private constructor(
                     format.subscribeTo(jacocoReport.reports)
                 }
             }
+
+        project.tasks
+            .withType(Test::class.java) { test ->
+                test.finalizedBy(project.tasks.withType(JacocoReport::class.java))
+            }
     }
 
     private fun addTaskFinalizer(project: Project) {
