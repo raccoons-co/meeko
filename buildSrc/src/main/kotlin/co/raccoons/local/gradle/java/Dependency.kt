@@ -11,7 +11,9 @@ abstract class Dependency(
     private val dependencyNotation: DependencyNotation
 ) {
 
-    fun configurationName() = configurationName
+    /** Returns dependency configuration scope name. */
+    fun configurationScope() = configurationName
 
+    /** Returns dependency notation. */
     fun dependencyNotation() = dependencyNotation
 }

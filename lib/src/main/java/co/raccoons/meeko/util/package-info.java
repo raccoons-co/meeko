@@ -3,4 +3,8 @@
  *
  * @license MIT
  */
-package co.raccoons.meeko;
+
+/**
+ * Meeko Java utilities.
+ */
+package co.raccoons.meeko.util;

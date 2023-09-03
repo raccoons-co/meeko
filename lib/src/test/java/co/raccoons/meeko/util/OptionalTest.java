@@ -28,7 +28,7 @@
  * @build ObscureException
  * @run testng OptionalTest
  */
-package co.raccoons.meeko;
+package co.raccoons.meeko.util;
 
 import org.testng.annotations.Test;
 

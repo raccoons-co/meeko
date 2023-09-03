@@ -1,3 +1,9 @@
+/*
+ * Copyright 2023, Raccoons. Developing simple way to change.
+ *
+ * @license MIT
+ */
+
 package co.raccoons.local.gradle.javadoc
 
 import org.gradle.api.Plugin
@@ -5,34 +11,38 @@ import org.gradle.api.Project
 import org.gradle.api.tasks.javadoc.Javadoc
 import org.gradle.external.javadoc.StandardJavadocDocletOptions
 
+/**
+ * Javadoc plugin configuration.
+ */
 class JavadocConfiguration private constructor(private val tags: List<String>) : Plugin<Project> {
 
-    override fun apply(project: Project) {
-        this.setupPlugin(project)
+    companion object {
+
+        /** Returns new plugin configuration builder. */
+        fun newBuilder() = Builder()
+
+        /** The configuration builder */
+        class Builder {
+
+            private val tags = mutableListOf<String>()
+
+            /** Adds Javadoc tag list. */
+            fun addTag(tag: JavadocTag): Builder {
+                tags.add(tag.toString())
+                return this
+            }
+
+            /** Returns new Javadoc plugin configuration. */
+            fun build() = JavadocConfiguration(tags.toList())
+        }
     }
 
-    private fun setupPlugin(project: Project) {
+    /** @inheritDoc */
+    override fun apply(project: Project) {
         project.tasks
             .withType(Javadoc::class.java)
             .configureEach { javadoc ->
                 (javadoc.options as StandardJavadocDocletOptions).tags(tags)
             }
-    }
-
-    companion object {
-
-        fun newBuilder() = Builder()
-
-        class Builder {
-
-            private val tags = mutableListOf<String>()
-
-            fun addTag(tag: JavadocTag): Builder {
-                this.tags.add(tag.toString())
-                return this
-            }
-
-            fun build() = JavadocConfiguration(this.tags.toList())
-        }
     }
 }

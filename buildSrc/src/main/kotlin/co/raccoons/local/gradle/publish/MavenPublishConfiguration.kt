@@ -13,10 +13,16 @@ import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
 
-private const val MAVEN_PUBLISH_PLUGIN_ID = "maven-publish"
-
+/**
+ * Maven publish plugin configuration.
+ */
 class MavenPublishConfiguration(private val publication: Publication) : Plugin<Project> {
 
+    companion object {
+        private const val MAVEN_PUBLISH_PLUGIN_ID = "maven-publish"
+    }
+
+    /** @inheritDoc */
     override fun apply(project: Project) {
         this.setupPlugin(project)
         this.addTaskPackageJavaSources(project)

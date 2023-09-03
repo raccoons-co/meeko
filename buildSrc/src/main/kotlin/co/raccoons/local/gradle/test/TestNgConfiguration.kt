@@ -4,24 +4,19 @@
  * @license MIT
  */
 
-package co.raccoons.local.gradle.java
+package co.raccoons.local.gradle.test
 
+import co.raccoons.local.gradle.java.Dependency
+import co.raccoons.local.gradle.java.DependencyScope
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.tasks.testing.Test
 
-/**
- * The Java Library plugin configuration.
- */
-class JavaLibraryConfiguration private constructor(
+class TestNgConfiguration private constructor(
     private val dependencyScope: DependencyScope
 ) : Plugin<Project> {
 
     companion object {
-
-        private const val JAVA_LIBRARY_PLUGIN_ID = "java-library"
-
-        /** Returns default configuration of the Java Library plugin. */
-        fun default(): JavaLibraryConfiguration = newBuilder().build()
 
         /** Returns new plugin configuration builder. */
         fun newBuilder() = Builder()
@@ -32,17 +27,26 @@ class JavaLibraryConfiguration private constructor(
             private val dependencyScopeBuilder = DependencyScope.newBuilder()
 
             fun addDependency(dependency: Dependency): Builder {
-                dependencyScopeBuilder.add(dependency)
+                this.dependencyScopeBuilder.add(dependency)
                 return this
             }
 
-            fun build() = JavaLibraryConfiguration(this.dependencyScopeBuilder.build())
+            fun build() = TestNgConfiguration(this.dependencyScopeBuilder.build())
         }
     }
 
     /** @inheritDoc */
     override fun apply(project: Project) {
-        project.plugins.apply(JAVA_LIBRARY_PLUGIN_ID)
+        this.setupPlugin(project)
+    }
+
+    private fun setupPlugin(project: Project) {
         dependencyScope.apply(project)
+
+        project.tasks
+            .withType(Test::class.java)
+            .configureEach { test ->
+                test.useTestNG()
+            }
     }
 }

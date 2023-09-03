@@ -1,12 +1,21 @@
 /*
- * Copyright (c) 2012, 2020, Oracle and/or its affiliates. All rights reserved.
+ * Copyright 2023, Raccoons. Developing simple way to change.
+ *
+ * @license GNU GPLv2
+ */
+
+/*
+ * @summary Refactored java.util.OptionalLong
+ * @author Oleksii Kucheruk
+ */
+
+/*
+ * Copyright (c) 2023, 2018, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * published by the Free Software Foundation.
  *
  * This code is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
@@ -22,12 +31,7 @@
  * or visit www.oracle.com if you need additional information or have any
  * questions.
  */
-
-/*
- * @summary Refactored java.util.OptionalLong
- * @author Oleksii Kucheruk
- */
-package co.raccoons.meeko;
+package co.raccoons.meeko.util;
 
 import java.util.NoSuchElementException;
 import java.util.Objects;

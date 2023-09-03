@@ -6,11 +6,12 @@
 
 package co.raccoons.local.gradle.java
 
-class DependencyNotation(
+data class DependencyNotation(
     private val group: String,
     private val name: String,
     private val version: String
 ) {
 
+    /** Returns string representation of the dependency notation. */
     override fun toString() = "$group:$name:$version"
 }
