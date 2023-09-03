@@ -9,10 +9,8 @@ import co.raccoons.local.gradle.checkstyle.CheckstyleConfiguration
 import co.raccoons.local.gradle.checkstyle.CheckstyleReportFormat
 import co.raccoons.local.gradle.jacoco.JacocoConfiguration
 import co.raccoons.local.gradle.jacoco.JacocoReportFormat
-import co.raccoons.local.gradle.java.JavaConfiguration
+import co.raccoons.local.gradle.java.*
 import co.raccoons.local.gradle.java.Manifest
-import co.raccoons.local.gradle.java.TestImplementation
-import co.raccoons.local.gradle.java.Version
 import co.raccoons.local.gradle.javadoc.JavadocConfiguration
 import co.raccoons.local.gradle.javadoc.JavadocTag
 import co.raccoons.local.gradle.publish.MavenPublishConfiguration
@@ -20,7 +18,7 @@ import co.raccoons.local.gradle.publish.maven.License
 import co.raccoons.local.gradle.publish.maven.Pom
 import co.raccoons.local.gradle.publish.maven.Publication
 import co.raccoons.local.gradle.repository.Repository
-import co.raccoons.local.gradle.test.TestNG
+import co.raccoons.local.gradle.test.TestNgConfiguration
 import java.time.LocalDateTime
 
 /**
@@ -32,7 +30,7 @@ BuildWorkflow.of(project)
     .use(Repository.MAVEN_LOCAL)
     .use(Repository.MAVEN_CENTRAL)
     .use(Configuration.java())
-//    .use(JavaLibraryConfiguration.default())
+    .use(JavaLibraryConfiguration.default())
     .use(Version.JAVA.of(20))
     .use(Configuration.testNG())
     .use(Configuration.jacoco())
@@ -58,21 +56,21 @@ internal object Configuration {
     }
 
     /** Returns ready to use TestNG plugin configuration. */
-    fun testNG() =
-        TestNG.newBuilder()
+    fun testNG(): TestNgConfiguration =
+        TestNgConfiguration.newBuilder()
             .addDependency(TestImplementation("org.testng", "testng", "7.8.0"))
             .addDependency(TestImplementation("org.slf4j", "slf4j-simple", "2.0.7"))
             .build()
 
     /** Returns ready to use Jacoco plugin configuration. */
-    fun jacoco() =
+    fun jacoco(): JacocoConfiguration =
         JacocoConfiguration.newBuilder()
             .enable(JacocoReportFormat.HTML)
             .enable(JacocoReportFormat.XML)
             .build()
 
     /** Returns ready to use Javadoc plugin configuration. */
-    fun javadoc() =
+    fun javadoc(): JavadocConfiguration =
         JavadocConfiguration.newBuilder()
             .addTag(JavadocTag("apiNote", "API Note"))
             .addTag(JavadocTag("implSpec", "Implementation Specification"))
@@ -80,7 +78,7 @@ internal object Configuration {
             .build()
 
     /** Returns ready to use Checkstyle plugin configuration. */
-    fun checkstyle() =
+    fun checkstyle(): CheckstyleConfiguration =
         CheckstyleConfiguration.newBuilder()
             .setVersion("10.12.2")
             .enable(CheckstyleReportFormat.HTML)

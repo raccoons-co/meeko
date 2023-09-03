@@ -2,14 +2,6 @@
 [![codecov](https://codecov.io/gh/raccoons-co/meeko/graph/badge.svg?token=FtCvNhCrBK)](https://codecov.io/gh/raccoons-co/meeko)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=raccoons-co_meeko&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=raccoons-co_meeko)
 
-Java Base Util
----
-Refactored from procedural code into object-oriented:
-- `java.util.Optional` 
-- `java.util.OptionalInt`
-
-*Always leave the code you are working on a little bit better than you found it.*
-
 build.gradle.kts
 ---
 
@@ -19,23 +11,27 @@ import co.raccoons.local.gradle.checkstyle.CheckstyleConfiguration
 import co.raccoons.local.gradle.checkstyle.CheckstyleReportFormat
 import co.raccoons.local.gradle.jacoco.JacocoConfiguration
 import co.raccoons.local.gradle.jacoco.JacocoReportFormat
-import co.raccoons.local.gradle.java.JavaLibraryConfiguration
-import co.raccoons.local.gradle.java.TestImplementation
-import co.raccoons.local.gradle.javacompile.Version
+import co.raccoons.local.gradle.java.*
+import co.raccoons.local.gradle.java.Manifest
 import co.raccoons.local.gradle.javadoc.JavadocConfiguration
 import co.raccoons.local.gradle.javadoc.JavadocTag
 import co.raccoons.local.gradle.publish.MavenPublishConfiguration
-import co.raccoons.local.gradle.publish.maven.Pom
 import co.raccoons.local.gradle.publish.maven.License
+import co.raccoons.local.gradle.publish.maven.Pom
 import co.raccoons.local.gradle.publish.maven.Publication
 import co.raccoons.local.gradle.repository.Repository
-import co.raccoons.local.gradle.test.TestNG
+import co.raccoons.local.gradle.test.TestNgConfiguration
+import java.time.LocalDateTime
 
+/**
+ * Gradle build entry point.
+ */
 BuildWorkflow.of(project)
     .setGroup("co.raccoons")
     .setVersion("1.0")
     .use(Repository.MAVEN_LOCAL)
     .use(Repository.MAVEN_CENTRAL)
+    .use(Configuration.java())
     .use(JavaLibraryConfiguration.default())
     .use(Version.JAVA.of(20))
     .use(Configuration.testNG())
@@ -44,33 +40,53 @@ BuildWorkflow.of(project)
     .use(Configuration.checkstyle())
     .use(Configuration.mavenPublish())
 
+/**
+ * The configuration of the project plugins.
+ */
 internal object Configuration {
 
-    fun testNG() =
-        TestNG.newBuilder()
+    /** Returns ready to use Java plugin configuration. */
+    fun java(): JavaConfiguration {
+        val manifest = Manifest.newBuilder()
+            .putAttributes("Name", "Meeko Library")
+            .putAttributes("Implementation-Title", "co.raccoons.meeko")
+            .putAttributes("Implementation-Vendor", "Raccoons")
+            .putAttributes("Implementation-Build-Date", LocalDateTime.now().toString())
+            .build();
+
+        return JavaConfiguration(manifest)
+    }
+
+    /** Returns ready to use TestNG plugin configuration. */
+    fun testNG(): TestNgConfiguration =
+        TestNgConfiguration.newBuilder()
             .addDependency(TestImplementation("org.testng", "testng", "7.8.0"))
             .addDependency(TestImplementation("org.slf4j", "slf4j-simple", "2.0.7"))
             .build()
 
-    fun jacoco() =
+    /** Returns ready to use Jacoco plugin configuration. */
+    fun jacoco(): JacocoConfiguration =
         JacocoConfiguration.newBuilder()
             .enable(JacocoReportFormat.HTML)
             .enable(JacocoReportFormat.XML)
             .build()
 
-    fun javadoc() =
+    /** Returns ready to use Javadoc plugin configuration. */
+    fun javadoc(): JavadocConfiguration =
         JavadocConfiguration.newBuilder()
             .addTag(JavadocTag("apiNote", "API Note"))
             .addTag(JavadocTag("implSpec", "Implementation Specification"))
             .addTag(JavadocTag("implNote", "Implementation Note"))
             .build()
 
-    fun checkstyle() =
+    /** Returns ready to use Checkstyle plugin configuration. */
+    fun checkstyle(): CheckstyleConfiguration =
         CheckstyleConfiguration.newBuilder()
             .setVersion("10.12.2")
             .enable(CheckstyleReportFormat.HTML)
             .build()
 
+    /** Returns ready to use Maven publish plugin configuration. */
     fun mavenPublish(): MavenPublishConfiguration {
         val license =
             License.newBuilder()

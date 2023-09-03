@@ -20,11 +20,13 @@ class JavadocConfiguration private constructor(private val tags: List<String>) :
 
             private val tags = mutableListOf<String>()
 
+            /** Adds Javadoc tag list. */
             fun addTag(tag: JavadocTag): Builder {
                 tags.add(tag.toString())
                 return this
             }
 
+            /** Returns new Javadoc plugin configuration. */
             fun build() = JavadocConfiguration(tags.toList())
         }
     }

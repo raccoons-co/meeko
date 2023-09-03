@@ -6,7 +6,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.testing.Test
 
-class TestNG private constructor(
+class TestNgConfiguration private constructor(
     private val dependencyConfiguration: DependencyConfiguration
 ) : Plugin<Project> {
 
@@ -25,7 +25,7 @@ class TestNG private constructor(
                 return this
             }
 
-            fun build() = TestNG(this.dependencyConfiguration)
+            fun build() = TestNgConfiguration(this.dependencyConfiguration)
         }
     }
 
