@@ -1,13 +1,13 @@
 package co.raccoons.local.gradle.test
 
 import co.raccoons.local.gradle.java.Dependency
-import co.raccoons.local.gradle.java.DependencyConfiguration
+import co.raccoons.local.gradle.java.DependencyScope
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.testing.Test
 
 class TestNgConfiguration private constructor(
-    private val dependencyConfiguration: DependencyConfiguration
+    private val dependencyScope: DependencyScope
 ) : Plugin<Project> {
 
     companion object {
@@ -18,14 +18,14 @@ class TestNgConfiguration private constructor(
         /** The configuration builder */
         class Builder {
 
-            private val dependencyConfiguration = DependencyConfiguration()
+            private val dependencyScopeBuilder = DependencyScope.newBuilder()
 
-            fun addDependency(dependency: Dependency): Builder {
-                this.dependencyConfiguration.add(dependency)
+            fun c(dependency: Dependency): Builder {
+                this.dependencyScopeBuilder.add(dependency)
                 return this
             }
 
-            fun build() = TestNgConfiguration(this.dependencyConfiguration)
+            fun build() = TestNgConfiguration(this.dependencyScopeBuilder.build())
         }
     }
 
@@ -35,7 +35,7 @@ class TestNgConfiguration private constructor(
     }
 
     private fun setupPlugin(project: Project) {
-        dependencyConfiguration.apply(project)
+        dependencyScope.apply(project)
 
         project.tasks
             .withType(Test::class.java)

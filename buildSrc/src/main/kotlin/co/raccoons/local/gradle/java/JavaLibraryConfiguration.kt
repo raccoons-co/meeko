@@ -7,10 +7,11 @@ import org.gradle.api.Project
  * The Java Library plugin configuration.
  */
 class JavaLibraryConfiguration private constructor(
-    private val dependencyConfiguration: DependencyConfiguration
+    private val dependencyScope: DependencyScope
 ) : Plugin<Project> {
 
     companion object {
+
         private const val JAVA_LIBRARY_PLUGIN_ID = "java-library"
 
         /** Returns default configuration of the Java Library plugin. */
@@ -22,20 +23,20 @@ class JavaLibraryConfiguration private constructor(
         /** The configuration builder */
         class Builder {
 
-            private val dependencyConfiguration = DependencyConfiguration()
+            private val dependencyScopeBuilder = DependencyScope.newBuilder()
 
             fun addDependency(dependency: Dependency): Builder {
-                dependencyConfiguration.add(dependency)
+                dependencyScopeBuilder.add(dependency)
                 return this
             }
 
-            fun build() = JavaLibraryConfiguration(this.dependencyConfiguration)
+            fun build() = JavaLibraryConfiguration(this.dependencyScopeBuilder.build())
         }
     }
 
     /** @inheritDoc */
     override fun apply(project: Project) {
         project.plugins.apply(JAVA_LIBRARY_PLUGIN_ID)
-        dependencyConfiguration.apply(project)
+        dependencyScope.apply(project)
     }
 }

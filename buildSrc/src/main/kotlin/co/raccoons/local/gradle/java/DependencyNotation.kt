@@ -12,5 +12,6 @@ data class DependencyNotation(
     private val version: String
 ) {
 
+    /** Returns string representation of the dependency notation. */
     override fun toString() = "$group:$name:$version"
 }
