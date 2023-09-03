@@ -1,3 +1,9 @@
+/*
+ * Copyright 2023, Raccoons. Developing simple way to change.
+ *
+ * @license MIT
+ */
+
 package co.raccoons.local.gradle.test
 
 import co.raccoons.local.gradle.java.Dependency
@@ -20,7 +26,7 @@ class TestNgConfiguration private constructor(
 
             private val dependencyScopeBuilder = DependencyScope.newBuilder()
 
-            fun c(dependency: Dependency): Builder {
+            fun addDependency(dependency: Dependency): Builder {
                 this.dependencyScopeBuilder.add(dependency)
                 return this
             }

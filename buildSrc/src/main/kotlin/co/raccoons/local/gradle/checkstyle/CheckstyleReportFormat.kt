@@ -1,3 +1,9 @@
+/*
+ * Copyright 2023, Raccoons. Developing simple way to change.
+ *
+ * @license MIT
+ */
+
 package co.raccoons.local.gradle.checkstyle
 
 import org.gradle.api.plugins.quality.CheckstyleReports

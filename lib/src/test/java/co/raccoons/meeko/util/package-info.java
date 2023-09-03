@@ -1,6 +1,6 @@
 /*
  * Copyright 2023, Raccoons. Developing simple way to change.
  *
- * @license MIT
+ * @license GNU GPLv2
  */
-package co.raccoons.meeko;
+package co.raccoons.meeko.util;
